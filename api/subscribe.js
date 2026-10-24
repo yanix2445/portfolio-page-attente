@@ -200,11 +200,15 @@ module.exports = async function handler(req, res) {
 
     const emailText = `Bonjour,\n\nVotre adresse ${email} a bien été enregistrée pour le lancement officiel de mon portfolio.\n\nVous recevrez une notification prioritaire dès la mise en ligne pour découvrir mes projets d'infrastructure système, réseau et cybersécurité (BTS SIO SISR).\n\nEn attendant, retrouvez mes travaux sur :\n- LinkedIn : https://www.linkedin.com/in/yanis-harrat/\n- GitHub : https://github.com/yanix2445\n\nÀ très vite,\nYanis Harrat\nParis, France\nhttps://www.yanis-harrat.com`;
 
+    // Idempotency key derived safely from email
+    const idempotencyKey = `waitlist-${Buffer.from(email).toString('base64').replace(/=/g, '')}`;
+
     const sendEmailRes = await fetch('https://api.resend.com/emails', {
       method: 'POST',
       headers: {
         'Authorization': `Bearer ${apiKey}`,
-        'Content-Type': 'application/json'
+        'Content-Type': 'application/json',
+        'Idempotency-Key': idempotencyKey
       },
       body: JSON.stringify({
         from: 'Yanis Harrat <contact@yanis-harrat.com>',
@@ -212,7 +216,11 @@ module.exports = async function handler(req, res) {
         reply_to: 'yanis@yanis-harrat.com',
         subject: 'Confirmation : Inscription au lancement de mon portfolio · Yanis Harrat',
         html: emailHtml,
-        text: emailText
+        text: emailText,
+        tags: [
+          { name: 'category', value: 'waitlist_confirmation' },
+          { name: 'project', value: 'portfolio_page_attente' }
+        ]
       })
     });
 
