@@ -3,4 +3,4 @@ User-agent: *
 Allow: /
 
 # Sitemap officiel
-Sitemap: https://yanis-harrat.com/sitemap.xml
+Sitemap: https://www.yanis-harrat.com/sitemap.xml
