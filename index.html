@@ -306,12 +306,13 @@
             </button>
           </form>
 
-          <!-- Notification de confirmation instantanée -->
-          <div id="invite-success" role="status" aria-live="polite" class="hidden mt-3 p-3 rounded-xl bg-emerald-950/40 border border-emerald-500/40 text-emerald-300 text-xs flex items-center justify-center gap-2 font-['Geist',sans-serif] shadow-md">
+          <!-- Notification de confirmation instantanée avec action de réinitialisation -->
+          <div id="invite-success" role="status" aria-live="polite" class="hidden mt-3 p-3 rounded-xl bg-emerald-950/40 border border-emerald-500/40 text-emerald-300 text-xs flex flex-wrap items-center justify-center gap-2 font-['Geist',sans-serif] shadow-md text-center">
             <svg class="w-4 h-4 shrink-0 text-emerald-400" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
               <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.857-9.809a.75.75 0 00-1.214-.882l-3.483 4.79-1.88-1.88a.75.75 0 10-1.06 1.061l2.5 2.5a.75.75 0 001.137-.089l4-5.5z" clip-rule="evenodd" />
             </svg>
             <span id="invite-success-text">C'est noté ! Un email de confirmation vient de vous être envoyé.</span>
+            <button type="button" id="reset-invite-btn" class="text-emerald-400 hover:text-emerald-200 underline underline-offset-2 ml-1 cursor-pointer font-medium select-none">Inscrire une autre adresse</button>
           </div>
         </section>
 
@@ -425,20 +426,19 @@
       const success = document.getElementById('invite-success');
       const successText = document.getElementById('invite-success-text');
 
-      // Auto-check if already subscribed locally
-      try {
-        const savedSub = localStorage.getItem('yh_subscriber');
-        if (savedSub && email) {
-          email.value = savedSub;
-          email.disabled = true;
-          btn.disabled = true;
-          btnText.textContent = 'Déjà inscrit';
-          btn.className = "font-['Sora',sans-serif] h-11 sm:h-auto sm:shrink-0 inline-flex items-center justify-center px-5 py-2.5 rounded-xl bg-zinc-800 text-zinc-400 text-xs sm:text-sm font-semibold shadow-inner cursor-default";
-          if (btnIcon) btnIcon.classList.add('hidden');
-          success.classList.remove('hidden');
-          if (successText) successText.textContent = "Vous êtes déjà inscrit avec cette adresse (" + savedSub + ").";
+      // Nettoyage proactif de tout verrou hérité
+      try { localStorage.removeItem('yh_subscriber'); } catch(e) {}
+
+      function resetInviteForm() {
+        email.disabled = false;
+        btn.disabled = false;
+        btnText.textContent = 'Être prévenu';
+        btn.className = "font-['Sora',sans-serif] h-11 sm:h-auto sm:shrink-0 inline-flex items-center justify-center gap-2 px-5 py-2.5 rounded-xl bg-orange-600 hover:bg-orange-500 active:bg-orange-700 text-white text-xs sm:text-sm font-semibold tracking-wide shadow-md apple-spring cursor-pointer select-none";
+        if (btnIcon) {
+          btnIcon.classList.remove('hidden', 'animate-pulse');
         }
-      } catch(e) {}
+        success.classList.add('hidden');
+      }
 
       form.addEventListener('submit', async (e) => {
         e.preventDefault();
@@ -456,7 +456,6 @@
         // État de chargement
         btn.disabled = true;
         email.disabled = true;
-        const initialText = btnText.textContent;
         btnText.textContent = 'Enregistrement...';
         if (btnIcon) btnIcon.classList.add('animate-pulse');
 
@@ -478,27 +477,42 @@
             throw new Error(data.error || "Impossible d'enregistrer votre inscription.");
           }
 
-          // Succès
-          btn.className = "font-['Sora',sans-serif] h-11 sm:h-auto sm:shrink-0 inline-flex items-center justify-center px-5 py-2.5 rounded-xl bg-emerald-600 text-white text-xs sm:text-sm font-semibold shadow-md cursor-default";
+          // Succès : garder le formulaire interactif
+          email.disabled = false;
+          btn.disabled = false;
+          btn.className = "font-['Sora',sans-serif] h-11 sm:h-auto sm:shrink-0 inline-flex items-center justify-center gap-2 px-5 py-2.5 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white text-xs sm:text-sm font-semibold shadow-md apple-spring cursor-pointer select-none";
           btnText.textContent = 'Inscrit ✓';
           if (btnIcon) btnIcon.classList.add('hidden');
           
           success.classList.remove('hidden');
           if (successText) {
-            successText.textContent = "C'est noté ! Un email de confirmation vient de vous être envoyé à " + val + ".";
+            successText.textContent = "C'est noté ! Un email de confirmation vient d'être envoyé à " + val + ".";
           }
           showAppleHUD('Email de confirmation envoyé !');
-          try { localStorage.setItem('yh_subscriber', val); } catch(err) {}
 
         } catch (err) {
-          // Restaurer l'état
-          btn.disabled = false;
-          email.disabled = false;
-          btnText.textContent = initialText;
-          if (btnIcon) btnIcon.classList.remove('animate-pulse');
+          resetInviteForm();
           showAppleHUD(err.message || 'Une erreur est survenue');
+          email.focus();
         }
       });
+
+      // Réinitialiser automatiquement l'état dès que l'utilisateur modifie l'adresse
+      email.addEventListener('input', () => {
+        if (btnText.textContent === 'Inscrit ✓' || !success.classList.contains('hidden')) {
+          resetInviteForm();
+        }
+      });
+
+      // Bouton explicite pour inscrire une autre adresse
+      const resetBtn = document.getElementById('reset-invite-btn');
+      if (resetBtn) {
+        resetBtn.addEventListener('click', () => {
+          email.value = '';
+          resetInviteForm();
+          email.focus();
+        });
+      }
 
       // Copie email
       const copyBtn = document.getElementById('copy-mail-action');
