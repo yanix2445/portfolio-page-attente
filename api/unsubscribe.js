@@ -27,7 +27,7 @@ module.exports = async function handler(req, res) {
     email = String(email).trim().toLowerCase();
     try {
       // Mettre à jour le statut dans Resend
-      await fetch(`https://api.resend.com/contacts/${encodeURIComponent(email)}`, {
+      const patchRes = await fetch(`https://api.resend.com/contacts/${encodeURIComponent(email)}`, {
         method: 'PATCH',
         headers: {
           'Authorization': `Bearer ${apiKey}`,
@@ -35,6 +35,18 @@ module.exports = async function handler(req, res) {
         },
         body: JSON.stringify({ unsubscribed: true })
       });
+
+      // Si le contact n'existait pas encore dans Contacts, l'enregistrer avec unsubscribed: true
+      if (patchRes.status === 404) {
+        await fetch('https://api.resend.com/contacts', {
+          method: 'POST',
+          headers: {
+            'Authorization': `Bearer ${apiKey}`,
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({ email, unsubscribed: true })
+        });
+      }
     } catch (err) {
       console.error('Erreur de désinscription Resend:', err);
     }

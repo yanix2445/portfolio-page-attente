@@ -460,6 +460,7 @@
         if (btnIcon) btnIcon.classList.add('animate-pulse');
 
         try {
+          const reqId = Date.now().toString(36) + Math.random().toString(36).substring(2, 6);
           const res = await fetch('/api/subscribe', {
             method: 'POST',
             headers: {
@@ -467,7 +468,8 @@
             },
             body: JSON.stringify({
               email: val,
-              hp_field: hpVal
+              hp_field: hpVal,
+              req_id: reqId
             })
           });
 
