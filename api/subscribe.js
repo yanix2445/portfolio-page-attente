@@ -1,3 +1,5 @@
+const crypto = require('crypto');
+
 module.exports = async function handler(req, res) {
   // CORS & Security headers
   res.setHeader('Access-Control-Allow-Credentials', 'true');
@@ -209,8 +211,9 @@ module.exports = async function handler(req, res) {
 
     const emailText = `Bonjour,\n\nVotre adresse ${email} a bien été enregistrée pour le lancement officiel de mon portfolio.\n\nVous recevrez une notification prioritaire dès la mise en ligne pour découvrir mes projets d'infrastructure système, réseau et cybersécurité (BTS SIO SISR).\n\nEn attendant, retrouvez mes travaux sur :\n- LinkedIn : https://www.linkedin.com/in/yanis-harrat/\n- GitHub : https://github.com/yanix2445\n\nÀ très vite,\nYanis Harrat\nParis, France\nhttps://www.yanis-harrat.com`;
 
-    // Idempotency key derived safely from email
-    const idempotencyKey = `waitlist-${Buffer.from(email).toString('base64').replace(/=/g, '')}`;
+    // Clé d'idempotence au format recommandé par Resend (<event-type>/<hash>)
+    const emailHash = crypto.createHash('sha256').update(email).digest('hex');
+    const idempotencyKey = `waitlist-signup/${emailHash}`;
 
     const sendEmailRes = await fetch('https://api.resend.com/emails', {
       method: 'POST',
