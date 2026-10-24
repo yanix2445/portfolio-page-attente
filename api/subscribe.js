@@ -197,8 +197,8 @@ module.exports = async function handler(req, res) {
         <table role="presentation" width="100%" border="0" cellspacing="0" cellpadding="0" style="max-width: 540px; margin-top: 16px;">
           <tr>
             <td align="center" style="font-size: 11px; color: #52525b; line-height: 1.5;">
-              Vous avez reçu cet email car vous avez renseigné votre adresse sur le site <a href="https://www.yanis-harrat.com" style="color: #71717a; text-decoration: underline;">yanis-harrat.com</a>.<br>
-              Pour toute question : <a href="mailto:yanis@yanis-harrat.com" style="color: #71717a; text-decoration: underline;">yanis@yanis-harrat.com</a>.
+              Vous avez reçu cet email suite à votre inscription sur <a href="https://www.yanis-harrat.com" style="color: #71717a; text-decoration: underline;">yanis-harrat.com</a>.<br>
+              Pour vous désinscrire en 1 clic : <a href="https://www.yanis-harrat.com/api/unsubscribe?email=${encodeURIComponent(email)}" style="color: #ea580c; text-decoration: underline;">Se désinscrire</a> · Contact : <a href="mailto:yanis@yanis-harrat.com" style="color: #71717a; text-decoration: underline;">yanis@yanis-harrat.com</a>.
             </td>
           </tr>
         </table>
@@ -235,7 +235,8 @@ module.exports = async function handler(req, res) {
         ],
         headers: {
           'X-Entity-Ref-ID': `waitlist-${Date.now()}-${Math.random().toString(36).substring(2, 9)}`,
-          'List-Unsubscribe': '<mailto:yanis@yanis-harrat.com?subject=Unsubscribe%20Waitlist>'
+          'List-Unsubscribe': `<https://www.yanis-harrat.com/api/unsubscribe?email=${encodeURIComponent(email)}>, <mailto:yanis@yanis-harrat.com?subject=Unsubscribe%20Waitlist>`,
+          'List-Unsubscribe-Post': 'List-Unsubscribe=One-Click'
         },
         attachments: [
           {
