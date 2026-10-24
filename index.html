@@ -279,7 +279,8 @@
         <section aria-labelledby="invite-section-title" class="w-full max-w-[350px] sm:max-w-md mt-4 sm:mt-7">
           <h2 id="invite-section-title" class="sr-only">Être notifié du lancement du portfolio</h2>
           
-          <form id="invite-form" method="POST" action="#" novalidate class="relative flex flex-col sm:flex-row gap-2 p-1.5 rounded-2xl bg-zinc-900/80 border border-white/10 sm:border-zinc-800 shadow-xl backdrop-blur-xl focus-within:border-orange-500/50 focus-within:ring-2 focus-within:ring-orange-500/20 transition-all">
+          <form id="invite-form" method="POST" action="/api/subscribe" novalidate class="relative flex flex-col sm:flex-row gap-2 p-1.5 rounded-2xl bg-zinc-900/80 border border-white/10 sm:border-zinc-800 shadow-xl backdrop-blur-xl focus-within:border-orange-500/50 focus-within:ring-2 focus-within:ring-orange-500/20 transition-all">
+            <input type="text" name="hp_field" id="form-hp-field" tabindex="-1" autocomplete="off" aria-hidden="true" style="position: absolute; left: -9999px; width: 1px; height: 1px; opacity: 0; pointer-events: none;">
             <label for="subscriber-email" class="sr-only">Votre adresse email</label>
             <input
               id="subscriber-email"
@@ -298,8 +299,8 @@
               aria-label="Être prévenu du lancement par email"
               class="font-['Sora',sans-serif] h-11 sm:h-auto sm:shrink-0 inline-flex items-center justify-center gap-2 px-5 py-2.5 rounded-xl bg-orange-600 hover:bg-orange-500 active:bg-orange-700 text-white text-xs sm:text-sm font-semibold tracking-wide shadow-md apple-spring cursor-pointer select-none"
             >
-              <span>Être prévenu</span>
-              <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.2" aria-hidden="true">
+              <span id="invite-btn-text">Être prévenu</span>
+              <svg id="invite-btn-icon" class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.2" aria-hidden="true">
                 <path stroke-linecap="round" stroke-linejoin="round" d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3" />
               </svg>
             </button>
@@ -310,7 +311,7 @@
             <svg class="w-4 h-4 shrink-0 text-emerald-400" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
               <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.857-9.809a.75.75 0 00-1.214-.882l-3.483 4.79-1.88-1.88a.75.75 0 10-1.06 1.061l2.5 2.5a.75.75 0 001.137-.089l4-5.5z" clip-rule="evenodd" />
             </svg>
-            <span>C'est noté. Vous recevrez une invitation prioritaire dès l'ouverture.</span>
+            <span id="invite-success-text">C'est noté ! Un email de confirmation vient de vous être envoyé.</span>
           </div>
         </section>
 
@@ -414,23 +415,88 @@
         }, 2200);
       }
 
-      // Formulaire
+      // Formulaire Resend avec validation & feedback Apple
       const form = document.getElementById('invite-form');
       const email = document.getElementById('subscriber-email');
+      const hpField = document.getElementById('form-hp-field');
       const btn = document.getElementById('invite-submit');
+      const btnText = document.getElementById('invite-btn-text');
+      const btnIcon = document.getElementById('invite-btn-icon');
       const success = document.getElementById('invite-success');
+      const successText = document.getElementById('invite-success-text');
 
-      form.addEventListener('submit', (e) => {
-        e.preventDefault();
-        const val = email.value.trim();
-        if (val) {
-          btn.disabled = true;
-          btn.textContent = 'Enregistré';
-          btn.className = "font-['Sora',sans-serif] h-11 sm:h-auto sm:shrink-0 inline-flex items-center justify-center px-5 py-2.5 rounded-xl bg-emerald-600 text-white text-xs sm:text-sm font-semibold shadow-md";
-          success.classList.remove('hidden');
+      // Auto-check if already subscribed locally
+      try {
+        const savedSub = localStorage.getItem('yh_subscriber');
+        if (savedSub && email) {
+          email.value = savedSub;
           email.disabled = true;
-          showAppleHUD('Inscription enregistrée !');
+          btn.disabled = true;
+          btnText.textContent = 'Déjà inscrit';
+          btn.className = "font-['Sora',sans-serif] h-11 sm:h-auto sm:shrink-0 inline-flex items-center justify-center px-5 py-2.5 rounded-xl bg-zinc-800 text-zinc-400 text-xs sm:text-sm font-semibold shadow-inner cursor-default";
+          if (btnIcon) btnIcon.classList.add('hidden');
+          success.classList.remove('hidden');
+          if (successText) successText.textContent = "Vous êtes déjà inscrit avec cette adresse (" + savedSub + ").";
+        }
+      } catch(e) {}
+
+      form.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const val = email.value.trim().toLowerCase();
+        const hpVal = hpField ? hpField.value.trim() : '';
+
+        // Validation email simple
+        const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        if (!val || !emailPattern.test(val)) {
+          showAppleHUD('Veuillez entrer un email valide');
+          email.focus();
+          return;
+        }
+
+        // État de chargement
+        btn.disabled = true;
+        email.disabled = true;
+        const initialText = btnText.textContent;
+        btnText.textContent = 'Enregistrement...';
+        if (btnIcon) btnIcon.classList.add('animate-pulse');
+
+        try {
+          const res = await fetch('/api/subscribe', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+              email: val,
+              hp_field: hpVal
+            })
+          });
+
+          const data = await res.json().catch(() => ({}));
+
+          if (!res.ok) {
+            throw new Error(data.error || "Impossible d'enregistrer votre inscription.");
+          }
+
+          // Succès
+          btn.className = "font-['Sora',sans-serif] h-11 sm:h-auto sm:shrink-0 inline-flex items-center justify-center px-5 py-2.5 rounded-xl bg-emerald-600 text-white text-xs sm:text-sm font-semibold shadow-md cursor-default";
+          btnText.textContent = 'Inscrit ✓';
+          if (btnIcon) btnIcon.classList.add('hidden');
+          
+          success.classList.remove('hidden');
+          if (successText) {
+            successText.textContent = "C'est noté ! Un email de confirmation vient de vous être envoyé à " + val + ".";
+          }
+          showAppleHUD('Email de confirmation envoyé !');
           try { localStorage.setItem('yh_subscriber', val); } catch(err) {}
+
+        } catch (err) {
+          // Restaurer l'état
+          btn.disabled = false;
+          email.disabled = false;
+          btnText.textContent = initialText;
+          if (btnIcon) btnIcon.classList.remove('animate-pulse');
+          showAppleHUD(err.message || 'Une erreur est survenue');
         }
       });
 
