@@ -230,6 +230,10 @@ module.exports = async function handler(req, res) {
           { name: 'category', value: 'waitlist_confirmation' },
           { name: 'project', value: 'portfolio_page_attente' }
         ],
+        headers: {
+          'X-Entity-Ref-ID': `waitlist-${Date.now()}-${Math.random().toString(36).substring(2, 9)}`,
+          'List-Unsubscribe': '<mailto:yanis@yanis-harrat.com?subject=Unsubscribe%20Waitlist>'
+        },
         attachments: [
           {
             path: 'https://www.yanis-harrat.com/apple-touch-icon.png',
