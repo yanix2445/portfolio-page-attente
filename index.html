@@ -479,6 +479,22 @@
             throw new Error(data.error || "Impossible d'enregistrer votre inscription.");
           }
 
+          // Cas : déjà activement inscrit (aucun nouvel email envoyé)
+          if (data.alreadySubscribed) {
+            email.disabled = false;
+            btn.disabled = false;
+            btnText.textContent = 'Déjà inscrit';
+            btn.className = "font-['Sora',sans-serif] h-11 sm:h-auto sm:shrink-0 inline-flex items-center justify-center gap-2 px-5 py-2.5 rounded-xl bg-zinc-800 text-zinc-300 text-xs sm:text-sm font-semibold shadow-md apple-spring cursor-pointer select-none";
+            if (btnIcon) btnIcon.classList.add('hidden');
+            
+            success.classList.remove('hidden');
+            if (successText) {
+              successText.textContent = "Cette adresse (" + val + ") est déjà activement inscrite.";
+            }
+            showAppleHUD('Adresse déjà inscrite !');
+            return;
+          }
+
           // Succès : garder le formulaire interactif
           email.disabled = false;
           btn.disabled = false;
@@ -501,7 +517,7 @@
 
       // Réinitialiser automatiquement l'état dès que l'utilisateur modifie l'adresse
       email.addEventListener('input', () => {
-        if (btnText.textContent === 'Inscrit ✓' || !success.classList.contains('hidden')) {
+        if (btnText.textContent === 'Inscrit ✓' || btnText.textContent === 'Déjà inscrit' || !success.classList.contains('hidden')) {
           resetInviteForm();
         }
       });

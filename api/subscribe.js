@@ -1,5 +1,49 @@
 const crypto = require('crypto');
 
+// Rate limiting en mémoire (protection anti-burst & anti-spam)
+const ipRateLimits = new Map();
+const emailRateLimits = new Map();
+
+function checkRateLimit(ip, email) {
+  const now = Date.now();
+
+  // Nettoyage périodique pour éviter toute fuite de mémoire
+  if (ipRateLimits.size > 2000) {
+    for (const [k, v] of ipRateLimits.entries()) {
+      if (now - v.last > 120000) ipRateLimits.delete(k);
+    }
+  }
+  if (emailRateLimits.size > 2000) {
+    for (const [k, v] of emailRateLimits.entries()) {
+      if (now - v > 120000) emailRateLimits.delete(k);
+    }
+  }
+
+  // 1. Limite globale par IP : max 5 requêtes par fenêtre de 60 secondes
+  const ipData = ipRateLimits.get(ip) || { count: 0, first: now, last: now };
+  if (now - ipData.first < 60000) {
+    if (ipData.count >= 5) {
+      return { limited: true, reason: 'Trop de requêtes. Veuillez patienter 1 minute avant de réessayer.' };
+    }
+    ipData.count += 1;
+    ipData.last = now;
+  } else {
+    ipData.count = 1;
+    ipData.first = now;
+    ipData.last = now;
+  }
+  ipRateLimits.set(ip, ipData);
+
+  // 2. Cooldown par adresse email : max 1 soumission toutes les 15 secondes pour le même email
+  const lastEmailAttempt = emailRateLimits.get(email);
+  if (lastEmailAttempt && now - lastEmailAttempt < 15000) {
+    return { limited: true, reason: 'Veuillez patienter quelques secondes avant de renvoyer ce formulaire.' };
+  }
+  emailRateLimits.set(email, now);
+
+  return { limited: false };
+}
+
 module.exports = async function handler(req, res) {
   // CORS & Security headers
   res.setHeader('Access-Control-Allow-Credentials', 'true');
@@ -43,6 +87,19 @@ module.exports = async function handler(req, res) {
       return res.status(400).json({ error: 'Veuillez saisir une adresse email valide.' });
     }
 
+    // Contrôle de fréquence & anti-spam (IP & cooldown email)
+    const clientIp = (
+      req.headers['x-forwarded-for']?.split(',')[0] ||
+      req.headers['x-real-ip'] ||
+      req.socket?.remoteAddress ||
+      'anonymous'
+    ).trim();
+
+    const rateCheck = checkRateLimit(clientIp, email);
+    if (rateCheck.limited) {
+      return res.status(429).json({ error: rateCheck.reason });
+    }
+
     const apiKey = process.env.RESEND_API_KEY;
     const segmentId = process.env.RESEND_SEGMENT_ID || '573be7ef-e507-4299-9de5-3ef2dc46917c';
 
@@ -51,24 +108,34 @@ module.exports = async function handler(req, res) {
       return res.status(500).json({ error: 'Configuration serveur manquante (clé API).' });
     }
 
-    // 1. Ajouter ou réactiver le contact dans Resend
-    const contactPayload = {
-      email,
-      unsubscribed: false,
-      segments: segmentId ? [{ id: segmentId }] : []
-    };
+    // 1. Vérification d'état dans Resend Contacts (Source unique de vérité)
+    let existingContact = null;
+    try {
+      const getContactRes = await fetch(`https://api.resend.com/contacts/${encodeURIComponent(email)}`, {
+        method: 'GET',
+        headers: {
+          'Authorization': `Bearer ${apiKey}`,
+          'Content-Type': 'application/json'
+        }
+      });
+      if (getContactRes.ok) {
+        existingContact = await getContactRes.json().catch(() => null);
+      }
+    } catch (e) {
+      console.warn('Notice verification contact:', e);
+    }
 
-    const contactRes = await fetch('https://api.resend.com/contacts', {
-      method: 'POST',
-      headers: {
-        'Authorization': `Bearer ${apiKey}`,
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify(contactPayload)
-    });
+    // Règle d'or : une adresse NE PEUT PAS se ré-inscrire si elle est déjà activement inscrite (unsubscribed === false)
+    if (existingContact && existingContact.unsubscribed === false) {
+      return res.status(200).json({
+        success: true,
+        alreadySubscribed: true,
+        message: 'Vous êtes déjà inscrit sur la liste prioritaire avec cette adresse.'
+      });
+    }
 
-    if (!contactRes.ok) {
-      // En cas d'existence préalable ou de ré-inscription, forcer la réactivation du contact
+    // Cas 1 : L'adresse était désinscrite (unsubscribed === true) -> RÉ-INSCRIPTION AUTORISÉE
+    if (existingContact && existingContact.unsubscribed === true) {
       await fetch(`https://api.resend.com/contacts/${encodeURIComponent(email)}`, {
         method: 'PATCH',
         headers: {
@@ -77,6 +144,34 @@ module.exports = async function handler(req, res) {
         },
         body: JSON.stringify({ unsubscribed: false })
       }).catch((err) => console.warn('Resend contact patch notice:', err));
+    } else if (!existingContact) {
+      // Cas 2 : Première inscription (contact inexistant) -> CRÉATION DU CONTACT
+      const contactPayload = {
+        email,
+        unsubscribed: false,
+        segments: segmentId ? [{ id: segmentId }] : []
+      };
+
+      const contactRes = await fetch('https://api.resend.com/contacts', {
+        method: 'POST',
+        headers: {
+          'Authorization': `Bearer ${apiKey}`,
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(contactPayload)
+      });
+
+      if (!contactRes.ok) {
+        // En cas de conflit, forcer explicitement unsubscribed: false
+        await fetch(`https://api.resend.com/contacts/${encodeURIComponent(email)}`, {
+          method: 'PATCH',
+          headers: {
+            'Authorization': `Bearer ${apiKey}`,
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({ unsubscribed: false })
+        }).catch(() => {});
+      }
     }
 
     // 2. Envoyer l'email de confirmation soigné
