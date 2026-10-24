@@ -91,15 +91,24 @@ module.exports = async function handler(req, res) {
             <td height="3" style="background: linear-gradient(90deg, #ea580c 0%, #f97316 50%, #ea580c 100%);"></td>
           </tr>
 
-          <!-- Header avec Badge -->
+          <!-- Header avec Badge et Logo CID -->
           <tr>
             <td style="padding: 36px 36px 20px 36px;">
               <table role="presentation" border="0" cellspacing="0" cellpadding="0">
                 <tr>
-                  <td style="background-color: rgba(249, 115, 22, 0.12); border: 1px solid rgba(249, 115, 22, 0.35); border-radius: 9999px; padding: 5px 14px;">
-                    <span style="font-family: 'SF Mono', Monaco, Menlo, Consolas, monospace; font-size: 11px; font-weight: 600; color: #fb923c; letter-spacing: 0.05em; text-transform: uppercase;">
-                      BTS SIO SISR · PARIS
-                    </span>
+                  <td width="48" valign="middle" style="padding-right: 14px;">
+                    <img src="cid:yh-logo" width="42" height="42" alt="Logo Yanis Harrat" style="display: block; border-radius: 50%; border: 1px solid rgba(249, 115, 22, 0.4); box-shadow: 0 4px 14px rgba(234, 88, 12, 0.35);">
+                  </td>
+                  <td valign="middle">
+                    <table role="presentation" border="0" cellspacing="0" cellpadding="0">
+                      <tr>
+                        <td style="background-color: rgba(249, 115, 22, 0.12); border: 1px solid rgba(249, 115, 22, 0.35); border-radius: 9999px; padding: 4px 12px;">
+                          <span style="font-family: 'SF Mono', Monaco, Menlo, Consolas, monospace; font-size: 11px; font-weight: 600; color: #fb923c; letter-spacing: 0.05em; text-transform: uppercase;">
+                            BTS SIO SISR · PARIS
+                          </span>
+                        </td>
+                      </tr>
+                    </table>
                   </td>
                 </tr>
               </table>
@@ -220,6 +229,13 @@ module.exports = async function handler(req, res) {
         tags: [
           { name: 'category', value: 'waitlist_confirmation' },
           { name: 'project', value: 'portfolio_page_attente' }
+        ],
+        attachments: [
+          {
+            path: 'https://www.yanis-harrat.com/apple-touch-icon.png',
+            filename: 'yh-logo.png',
+            content_id: 'yh-logo'
+          }
         ]
       })
     });
