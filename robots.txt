@@ -1,0 +1,6 @@
+# robots.txt for https://yanis-harrat.com
+User-agent: *
+Allow: /
+
+# Sitemap officiel
+Sitemap: https://yanis-harrat.com/sitemap.xml
