@@ -84,7 +84,7 @@ export class SubscriptionService {
         },
         attachments: [
           {
-            path: `${APP_CONFIG.siteUrl}/apple-touch-icon.png`,
+            path: `${APP_CONFIG.siteUrl}/assets/apple-touch-icon.png`,
             filename: 'yh-logo.png',
             content_id: 'yh-logo'
           }

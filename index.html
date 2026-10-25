@@ -12,19 +12,19 @@
     <link rel="alternate" hreflang="x-default" href="https://www.yanis-harrat.com/">
     
         <!-- Favicon & Apple Touch Icons -->
-    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
-    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
-    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
-    <link rel="shortcut icon" href="/favicon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/assets/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/assets/favicon-16x16.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="/assets/apple-touch-icon.png">
+    <link rel="shortcut icon" href="/assets/favicon.png">
 
     <!-- Open Graph Image (iMessage, WhatsApp, LinkedIn, Discord) -->
-    <meta property="og:image" content="https://www.yanis-harrat.com/og-image.png">
-    <meta property="og:image:secure_url" content="https://www.yanis-harrat.com/og-image.png">
+    <meta property="og:image" content="https://www.yanis-harrat.com/assets/og-image.png">
+    <meta property="og:image:secure_url" content="https://www.yanis-harrat.com/assets/og-image.png">
     <meta property="og:image:type" content="image/png">
     <meta property="og:image:width" content="1200">
     <meta property="og:image:height" content="630">
     <meta property="og:image:alt" content="Yanis Harrat — Systèmes, Réseaux &amp; Cloud | BTS SIO SISR">
-    <meta name="twitter:image" content="https://www.yanis-harrat.com/og-image.png">
+    <meta name="twitter:image" content="https://www.yanis-harrat.com/assets/og-image.png">
 
     <!-- Open Graph Protocol (LinkedIn, Facebook, Discord) -->
     <meta property="og:type" content="profile">
@@ -212,12 +212,15 @@
         <div class="flex items-center gap-2.5 sm:gap-3.5">
           <!-- 3D Logo Emblem -->
           <div class="w-7 h-7 sm:w-10 sm:h-10 rounded-full p-[1.5px] bg-gradient-to-b from-orange-400/80 to-orange-600/30 shadow-md shadow-orange-950/20 shrink-0">
-            <img
-              src="/logo.png" alt="Logo officiel YH"
-              width="1024"
-              height="1024"
-              class="w-full h-full rounded-full object-cover"
-            >
+            <picture>
+              <source srcset="/assets/logo.webp" type="image/webp">
+              <img
+                src="/assets/logo.png" alt="Logo officiel YH"
+                width="256"
+                height="256"
+                class="w-full h-full rounded-full object-cover"
+              >
+            </picture>
           </div>
           <div>
             <div class="flex items-center gap-2">
@@ -253,14 +256,17 @@
         <!-- Mascotte 3D : Figure sémantique avec figcaption accessible -->
         <figure class="relative w-full max-w-[320px] sm:max-w-[430px] flex items-center justify-center m-0 p-0 mb-2 sm:mb-6">
           <div class="mascot-hero relative w-full flex items-center justify-center">
-            <img
-              src="/mascot.png"
-              alt="Mascotte orange Yanis Harrat au travail sur ordinateur"
-              width="1536"
-              height="1024"
-              class="desk-edge w-auto h-auto max-h-[160px] sm:max-h-[290px] max-w-full object-contain filter drop-shadow-[0_20px_40px_rgba(0,0,0,0.65)] select-none pointer-events-none"
-              fetchpriority="high"
-            >
+            <picture>
+              <source srcset="/assets/mascot.webp" type="image/webp">
+              <img
+                src="/assets/mascot.png"
+                alt="Mascotte orange Yanis Harrat au travail sur ordinateur"
+                width="1024"
+                height="683"
+                class="desk-edge w-auto h-auto max-h-[160px] sm:max-h-[290px] max-w-full object-contain filter drop-shadow-[0_20px_40px_rgba(0,0,0,0.65)] select-none pointer-events-none"
+                fetchpriority="high"
+              >
+            </picture>
           </div>
           <figcaption class="sr-only">Mascotte 3D représentant Yanis Harrat concentré à son poste de travail avec son ordinateur portable.</figcaption>
         </figure>
