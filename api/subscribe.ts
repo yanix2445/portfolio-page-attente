@@ -1,10 +1,44 @@
-const crypto = require('crypto');
+import type { VercelRequest, VercelResponse } from '@vercel/node';
+import crypto from 'node:crypto';
+
+interface RateLimitEntry {
+  count: number;
+  first: number;
+  last: number;
+}
+
+interface RateLimitResult {
+  limited: boolean;
+  reason?: string;
+}
+
+interface SubscribeRequestBody {
+  email?: string;
+  hp_field?: string;
+  req_id?: string;
+}
+
+interface ResendContact {
+  id?: string;
+  email?: string;
+  unsubscribed?: boolean;
+}
+
+interface ResendSendEmailSuccess {
+  id: string;
+}
+
+interface ResendErrorResponse {
+  message?: string;
+  statusCode?: number;
+  name?: string;
+}
 
 // Rate limiting en mémoire (protection anti-burst & anti-spam)
-const ipRateLimits = new Map();
-const emailRateLimits = new Map();
+const ipRateLimits = new Map<string, RateLimitEntry>();
+const emailRateLimits = new Map<string, number>();
 
-function checkRateLimit(ip, email) {
+function checkRateLimit(ip: string, email: string): RateLimitResult {
   const now = Date.now();
 
   // Nettoyage périodique pour éviter toute fuite de mémoire
@@ -44,7 +78,7 @@ function checkRateLimit(ip, email) {
   return { limited: false };
 }
 
-module.exports = async function handler(req, res) {
+export default async function handler(req: VercelRequest, res: VercelResponse): Promise<VercelResponse | void> {
   // CORS & Security headers
   res.setHeader('Access-Control-Allow-Credentials', 'true');
   res.setHeader('Access-Control-Allow-Origin', '*');
@@ -64,11 +98,11 @@ module.exports = async function handler(req, res) {
   }
 
   try {
-    let body = req.body;
+    let body: SubscribeRequestBody = req.body;
     if (typeof body === 'string') {
       try {
-        body = JSON.parse(body);
-      } catch (e) {
+        body = JSON.parse(body) as SubscribeRequestBody;
+      } catch {
         return res.status(400).json({ error: 'Format JSON invalide.' });
       }
     }
@@ -88,9 +122,10 @@ module.exports = async function handler(req, res) {
     }
 
     // Contrôle de fréquence & anti-spam (IP & cooldown email)
+    const headerForwarded = req.headers['x-forwarded-for'];
     const clientIp = (
-      req.headers['x-forwarded-for']?.split(',')[0] ||
-      req.headers['x-real-ip'] ||
+      (typeof headerForwarded === 'string' ? headerForwarded.split(',')[0] : Array.isArray(headerForwarded) ? headerForwarded[0] : null) ||
+      (typeof req.headers['x-real-ip'] === 'string' ? req.headers['x-real-ip'] : null) ||
       req.socket?.remoteAddress ||
       'anonymous'
     ).trim();
@@ -109,7 +144,7 @@ module.exports = async function handler(req, res) {
     }
 
     // 1. Vérification d'état dans Resend Contacts (Source unique de vérité)
-    let existingContact = null;
+    let existingContact: ResendContact | null = null;
     try {
       const getContactRes = await fetch(`https://api.resend.com/contacts/${encodeURIComponent(email)}`, {
         method: 'GET',
@@ -119,7 +154,7 @@ module.exports = async function handler(req, res) {
         }
       });
       if (getContactRes.ok) {
-        existingContact = await getContactRes.json().catch(() => null);
+        existingContact = (await getContactRes.json()) as ResendContact;
       }
     } catch (e) {
       console.warn('Notice verification contact:', e);
@@ -333,12 +368,12 @@ Pour vous désinscrire : https://www.yanis-harrat.com/api/unsubscribe?email=${en
       })
     });
 
-    const sendEmailData = await sendEmailRes.json().catch(() => ({}));
+    const sendEmailData = (await sendEmailRes.json().catch(() => ({}))) as ResendSendEmailSuccess & ResendErrorResponse;
 
     if (!sendEmailRes.ok) {
       console.error('Resend send email error:', sendEmailData);
       return res.status(500).json({
-        error: 'Contact enregistré mais une erreur est survenue lors de l\'envoi de l\'email de confirmation.'
+        error: "Contact enregistré mais une erreur est survenue lors de l'envoi de l'email de confirmation."
       });
     }
 
@@ -351,4 +386,4 @@ Pour vous désinscrire : https://www.yanis-harrat.com/api/unsubscribe?email=${en
     console.error('Unhandled subscribe error:', error);
     return res.status(500).json({ error: 'Une erreur inattendue est survenue.' });
   }
-};
+}

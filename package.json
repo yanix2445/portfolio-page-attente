@@ -1,0 +1,13 @@
+{
+  "name": "portfolio-page-attente",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "type-check": "tsc --noEmit"
+  },
+  "devDependencies": {
+    "@types/node": "^26.6.5",
+    "@vercel/node": "^27.0.2",
+    "typescript": "^7.0.2"
+  }
+}

@@ -1,4 +1,10 @@
-module.exports = async function handler(req, res) {
+import type { VercelRequest, VercelResponse } from '@vercel/node';
+
+function escapeHtml(str: string): string {
+  return str.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+}
+
+export default async function handler(req: VercelRequest, res: VercelResponse): Promise<VercelResponse | void> {
   // CORS & Security headers
   res.setHeader('Access-Control-Allow-Origin', '*');
   res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS');
@@ -14,20 +20,24 @@ module.exports = async function handler(req, res) {
   }
 
   // Extraire l'email de la requête (query param ou body)
-  let email = req.query?.email;
+  let email: string | undefined = typeof req.query?.email === 'string' ? req.query.email : undefined;
   if (!email && req.body) {
     let body = req.body;
     if (typeof body === 'string') {
-      try { body = JSON.parse(body); } catch(e) {}
+      try {
+        body = JSON.parse(body);
+      } catch {}
     }
-    email = body?.email;
+    if (body && typeof body.email === 'string') {
+      email = body.email;
+    }
   }
 
   if (email) {
-    email = String(email).trim().toLowerCase();
+    const cleanEmail = email.trim().toLowerCase();
     try {
       // Mettre à jour le statut dans Resend
-      const patchRes = await fetch(`https://api.resend.com/contacts/${encodeURIComponent(email)}`, {
+      const patchRes = await fetch(`https://api.resend.com/contacts/${encodeURIComponent(cleanEmail)}`, {
         method: 'PATCH',
         headers: {
           'Authorization': `Bearer ${apiKey}`,
@@ -44,7 +54,7 @@ module.exports = async function handler(req, res) {
             'Authorization': `Bearer ${apiKey}`,
             'Content-Type': 'application/json'
           },
-          body: JSON.stringify({ email, unsubscribed: true })
+          body: JSON.stringify({ email: cleanEmail, unsubscribed: true })
         });
       }
     } catch (err) {
@@ -58,7 +68,7 @@ module.exports = async function handler(req, res) {
   }
 
   // Réponse GET dans le navigateur : page design system minimaliste
-  const displayEmail = email ? escapeHtml(email) : 'votre adresse email';
+  const displayEmail = email ? escapeHtml(email.trim().toLowerCase()) : 'votre adresse email';
   const html = `<!DOCTYPE html>
 <html lang="fr" class="h-full bg-[#09090b] text-zinc-100">
 <head>
@@ -150,8 +160,4 @@ module.exports = async function handler(req, res) {
 
   res.setHeader('Content-Type', 'text/html; charset=utf-8');
   return res.status(200).send(html);
-};
-
-function escapeHtml(str) {
-  return str.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
 }
