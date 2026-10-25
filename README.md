@@ -102,8 +102,8 @@ sequenceDiagram
 
 Le backend est structuré selon les principes du Clean Code, séparant le domaine métier pur des adaptateurs externes :
 
-<details>
-<summary><strong>📂 Explorer l'arborescence du projet (cliquer pour dérouler)</strong></summary>
+<details open>
+<summary><strong>📂 Arborescence du projet</strong></summary>
 
 ```text
 portfolio-page-attente/
