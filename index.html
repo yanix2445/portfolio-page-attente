@@ -51,6 +51,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&family=Sora:wght@600;700;800&display=swap" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <script src="https://challenges.cloudflare.com/turnstile/v0/api.js?onload=onloadTurnstileCallback" async defer></script>
     <style type="text/tailwindcss">
       @theme {
         --font-sora: "Sora", sans-serif;
@@ -281,6 +282,7 @@
           
           <form id="invite-form" method="POST" action="/api/subscribe" novalidate class="relative flex flex-col sm:flex-row gap-2 p-1.5 rounded-2xl bg-zinc-900/80 border border-white/10 sm:border-zinc-800 shadow-xl backdrop-blur-xl focus-within:border-orange-500/50 focus-within:ring-2 focus-within:ring-orange-500/20 transition-all">
             <input type="text" name="hp_field" id="form-hp-field" tabindex="-1" autocomplete="off" aria-hidden="true" style="position: absolute; left: -9999px; width: 1px; height: 1px; opacity: 0; pointer-events: none;">
+            <div id="turnstile-container" class="hidden"></div>
             <label for="subscriber-email" class="sr-only">Votre adresse email</label>
             <input
               id="subscriber-email"
@@ -429,6 +431,19 @@
       // Nettoyage proactif de tout verrou hérité
       try { localStorage.removeItem('yh_subscriber'); } catch(e) {}
 
+      // Initialisation Cloudflare Turnstile invisible
+      let turnstileWidgetId = null;
+      window.onloadTurnstileCallback = function() {
+        if (window.turnstile) {
+          try {
+            turnstileWidgetId = window.turnstile.render('#turnstile-container', {
+              sitekey: window.TURNSTILE_SITE_KEY || '1x00000000000000000000BB',
+              size: 'invisible'
+            });
+          } catch(e) {}
+        }
+      };
+
       function resetInviteForm() {
         email.disabled = false;
         btn.disabled = false;
@@ -459,6 +474,14 @@
         btnText.textContent = 'Enregistrement...';
         if (btnIcon) btnIcon.classList.add('animate-pulse');
 
+        // Récupération du jeton Turnstile si disponible
+        let turnstileToken = '';
+        if (window.turnstile && turnstileWidgetId !== null) {
+          try {
+            turnstileToken = window.turnstile.getResponse(turnstileWidgetId);
+          } catch(e) {}
+        }
+
         try {
           const reqId = Date.now().toString(36) + Math.random().toString(36).substring(2, 6);
           const res = await fetch('/api/subscribe', {
@@ -469,7 +492,8 @@
             body: JSON.stringify({
               email: val,
               hp_field: hpVal,
-              req_id: reqId
+              req_id: reqId,
+              turnstile_token: turnstileToken
             })
           });
 

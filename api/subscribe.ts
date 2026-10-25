@@ -1,5 +1,6 @@
 import type { VercelRequest, VercelResponse } from '@vercel/node';
 import crypto from 'node:crypto';
+import { handleCors, generateUnsubscribeToken, verifyTurnstile } from './_security.js';
 
 interface RateLimitEntry {
   count: number;
@@ -16,6 +17,8 @@ interface SubscribeRequestBody {
   email?: string;
   hp_field?: string;
   req_id?: string;
+  turnstile_token?: string;
+  'cf-turnstile-response'?: string;
 }
 
 interface ResendContact {
@@ -79,14 +82,11 @@ function checkRateLimit(ip: string, email: string): RateLimitResult {
 }
 
 export default async function handler(req: VercelRequest, res: VercelResponse): Promise<VercelResponse | void> {
-  // CORS & Security headers
-  res.setHeader('Access-Control-Allow-Credentials', 'true');
-  res.setHeader('Access-Control-Allow-Origin', '*');
-  res.setHeader('Access-Control-Allow-Methods', 'POST, OPTIONS');
-  res.setHeader(
-    'Access-Control-Allow-Headers',
-    'X-CSRF-Token, X-Requested-With, Accept, Accept-Version, Content-Length, Content-MD5, Content-Type, Date, X-Api-Version'
-  );
+  // CORS strict avec whitelist d'origines
+  const isOriginAllowed = handleCors(req, res, 'POST, OPTIONS');
+  if (!isOriginAllowed) {
+    return res.status(403).json({ error: 'Origine non autorisée par la politique de sécurité.' });
+  }
 
   if (req.method === 'OPTIONS') {
     return res.status(200).end();
@@ -109,19 +109,20 @@ export default async function handler(req: VercelRequest, res: VercelResponse): 
 
     const email = body?.email ? String(body.email).trim().toLowerCase() : '';
     const honeypot = body?.hp_field ? String(body.hp_field).trim() : '';
+    const turnstileToken = body?.['cf-turnstile-response'] || body?.turnstile_token;
 
-    // Silent bot trap
+    // 1. Silent bot trap (Honeypot)
     if (honeypot) {
       return res.status(200).json({ success: true, message: 'Inscription confirmée.' });
     }
 
-    // Email format validation
+    // 2. Format d'email & longueur RFC 5321
     const emailRegex = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)+$/;
     if (!email || !emailRegex.test(email) || email.length > 254) {
       return res.status(400).json({ error: 'Veuillez saisir une adresse email valide.' });
     }
 
-    // Contrôle de fréquence & anti-spam (IP & cooldown email)
+    // 3. Extraction d'IP fiable
     const headerForwarded = req.headers['x-forwarded-for'];
     const clientIp = (
       (typeof headerForwarded === 'string' ? headerForwarded.split(',')[0] : Array.isArray(headerForwarded) ? headerForwarded[0] : null) ||
@@ -130,6 +131,13 @@ export default async function handler(req: VercelRequest, res: VercelResponse): 
       'anonymous'
     ).trim();
 
+    // 4. Vérification Cloudflare Turnstile
+    const turnstileCheck = await verifyTurnstile(turnstileToken, clientIp);
+    if (!turnstileCheck.success) {
+      return res.status(403).json({ error: turnstileCheck.reason || 'Vérification de sécurité échouée.' });
+    }
+
+    // 5. Contrôle de fréquence & anti-spam (IP & cooldown email)
     const rateCheck = checkRateLimit(clientIp, email);
     if (rateCheck.limited) {
       return res.status(429).json({ error: rateCheck.reason });
@@ -143,7 +151,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse): 
       return res.status(500).json({ error: 'Configuration serveur manquante (clé API).' });
     }
 
-    // 1. Vérification d'état dans Resend Contacts (Source unique de vérité)
+    // 6. Vérification d'état dans Resend Contacts (Source unique de vérité)
     let existingContact: ResendContact | null = null;
     try {
       const getContactRes = await fetch(`https://api.resend.com/contacts/${encodeURIComponent(email)}`, {
@@ -209,7 +217,11 @@ export default async function handler(req: VercelRequest, res: VercelResponse): 
       }
     }
 
-    // 2. Envoyer l'email de confirmation soigné (Design anti-slop, épuré, style Dovetail)
+    // 7. Signature HMAC du lien de désinscription pour cet utilisateur
+    const unsubscribeToken = generateUnsubscribeToken(email);
+    const unsubscribeUrl = `https://www.yanis-harrat.com/api/unsubscribe?email=${encodeURIComponent(email)}&token=${unsubscribeToken}`;
+
+    // 8. Envoyer l'email de confirmation soigné (Design anti-slop, épuré, style Dovetail)
     const emailHtml = `<!DOCTYPE html>
 <html lang="fr">
 <head>
@@ -296,11 +308,11 @@ export default async function handler(req: VercelRequest, res: VercelResponse): 
             </td>
           </tr>
 
-          <!-- Footer désinscription épuré -->
+          <!-- Footer désinscription épuré avec HMAC sécurisé -->
           <tr>
             <td style="padding-top: 28px; font-size: 11px; color: #52525b; line-height: 1.5;">
               Vous recevez cet email suite à votre inscription sur <a href="https://www.yanis-harrat.com" style="color: #71717a; text-decoration: underline;">yanis-harrat.com</a>.<br>
-              Pour vous désinscrire en 1 clic : <a href="https://www.yanis-harrat.com/api/unsubscribe?email=${encodeURIComponent(email)}" style="color: #71717a; text-decoration: underline;">Se désinscrire</a> · Contact : <a href="mailto:yanis@yanis-harrat.com" style="color: #71717a; text-decoration: underline;">yanis@yanis-harrat.com</a>.
+              Pour vous désinscrire en 1 clic : <a href="${unsubscribeUrl}" style="color: #71717a; text-decoration: underline;">Se désinscrire</a> · Contact : <a href="mailto:yanis@yanis-harrat.com" style="color: #71717a; text-decoration: underline;">yanis@yanis-harrat.com</a>.
             </td>
           </tr>
 
@@ -328,7 +340,7 @@ Yanis Harrat
 BTS SIO SISR · Paris
 https://www.yanis-harrat.com
 
-Pour vous désinscrire : https://www.yanis-harrat.com/api/unsubscribe?email=${encodeURIComponent(email)}`;
+Pour vous désinscrire : ${unsubscribeUrl}`;
 
     // Clé d'idempotence scoped par tentative (évite les doublons réseau tout en autorisant les ré-inscriptions volontaires)
     const emailHash = crypto.createHash('sha256').update(email).digest('hex').substring(0, 16);
@@ -355,7 +367,7 @@ Pour vous désinscrire : https://www.yanis-harrat.com/api/unsubscribe?email=${en
         ],
         headers: {
           'X-Entity-Ref-ID': `waitlist-${Date.now()}-${Math.random().toString(36).substring(2, 9)}`,
-          'List-Unsubscribe': `<https://www.yanis-harrat.com/api/unsubscribe?email=${encodeURIComponent(email)}>, <mailto:yanis@yanis-harrat.com?subject=Unsubscribe%20Waitlist>`,
+          'List-Unsubscribe': `<${unsubscribeUrl}>, <mailto:yanis@yanis-harrat.com?subject=Unsubscribe%20Waitlist>`,
           'List-Unsubscribe-Post': 'List-Unsubscribe=One-Click'
         },
         attachments: [
