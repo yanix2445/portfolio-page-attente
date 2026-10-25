@@ -18,13 +18,12 @@
 
 </div>
 
----
 
 > [!TIP]
 > **Disponibilité Alternance (2 ans) :**  
 > Étudiant en 1ère année de BTS SIO SISR à **Aurlom Paris**, disponible **immédiatement** au rythme **3 jours en entreprise / 2 jours en formation** sur Paris et toute l'Île-de-France.
 
----
+
 
 ## Le projet en deux mots
 
@@ -35,7 +34,6 @@ C'est à la fois :
 2. **Une vraie liste d'attente technique** : les gens laissent leur email, reçoivent un mot de confirmation instantané et seront avertis dès que le portfolio complet sera en ligne.
 3. **Une preuve de rigueur** : même pour une simple page d'attente, pas de template WordPress ou de Webflow boursouflé. Juste 32 Ko de HTML pur, une Clean Architecture en TypeScript strict et une sécurité blindée sans captcha visuel.
 
----
 
 ## Ce qui tourne chez moi (Homelab & Infra physique)
 
@@ -73,7 +71,6 @@ graph TD
 * **Systèmes & Scripting :** Gestion quotidienne d'environnements Linux (Debian, Ubuntu Server) et Windows Server (Active Directory, GPO, DNS, DHCP), avec du scripting en Bash, PowerShell et Python pour tout automatiser.
 * **Certifications validées :** Google Cybersecurity, Google IT Support, Cisco Introduction to Cybersecurity, Anthropic Claude Platform.
 
----
 
 ## Le flux de la liste d'attente (Sécurité sans friction)
 
@@ -100,8 +97,6 @@ sequenceDiagram
   Edge-->>Web: HTTP 200 { success: true }
   Web-->>User: Notification HUD Apple Dynamic Island ("Email envoyé !")
 ```
-
----
 
 ## Architecture logicielle (Clean Architecture)
 
@@ -146,8 +141,6 @@ portfolio-page-attente/
 
 </details>
 
----
-
 ## Les choix de sécurité en détail
 
 Dès qu'un formulaire public est exposé sur le web, les scripts automatisés attaquent en boucle. Voici les choix techniques retenus :
@@ -160,8 +153,6 @@ Dès qu'un formulaire public est exposé sur le web, les scripts automatisés at
 | **Honeypot + Rate Limiter** | Un champ masqué hors écran piège les bots naïfs. Une fenêtre glissante en mémoire bloque les soumissions en rafale depuis une même adresse IP. |
 | **En-têtes HTTP durcis** | CSP sur-mesure dans [`vercel.json`](vercel.json), HSTS sur 2 ans (`max-age=63072000; preload`), `Referrer-Policy: strict-origin-when-cross-origin` et désactivation des capteurs via `Permissions-Policy`. |
 
----
-
 ## Les chiffres & la performance
 
 | Élément | Avant | Après optimisation | Gain |
@@ -171,8 +162,6 @@ Dès qu'un formulaire public est exposé sur le web, les scripts automatisés at
 | **Logo de marque** | 1,17 Mo *(PNG haute résolution)* | **13 Ko** *(WebP 256×256)* | **-98,9 %** |
 | **Durée du cache CDN (`/assets/*`)** | Non optimisé | **1 an immuable** (`max-age=31536000`) | Chargement instantané |
 | **Ergonomie tactile & motion** | Standard | **Apple HIG (44 px) + ressorts CSS** | Rendu 60 fps natif |
-
----
 
 ## Lancer le projet en local
 
@@ -204,8 +193,6 @@ RESEND_SEGMENT_ID=573be7ef-e507-4299-9de5-3ef2dc46917c
 TURNSTILE_SECRET_KEY=0x4AAAAAA...
 UNSUBSCRIBE_SECRET=votre-cle-secrete-locale
 ```
-
----
 
 ## Contact & Alternance
 
