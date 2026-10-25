@@ -1,20 +1,25 @@
 Bonjour,
 
-Vous êtes inscrit sur la liste prioritaire pour le lancement de mon portfolio. En attendant la mise en ligne officielle, voici un aperçu concret des projets d'infrastructure sur lesquels je finalise la documentation :
+Vous êtes inscrit sur la liste prioritaire de mon portfolio. En attendant la mise en ligne complète, je voulais partager un aperçu concret des architectures sur lesquelles je travaille actuellement :
 
-1. Virtualisation & Haute Disponibilité : Cluster Proxmox VE, stockage partagé NFS, conteneurs LXC et séparation stricte des flux d'administration.
-2. Architecture Réseau Cisco : Segmentation multi-VLANs, routage inter-VLANs, relais DHCP, agrégation LACP et durcissement SSH.
-3. Administration Windows Server & Linux : Domaine Active Directory, gestion centralisée par GPO, scripts d'onboarding PowerShell et services Rocky Linux.
+1. Lab physique & Virtualisation Proxmox VE :
+Infrastructure sur deux machines physiques dédiées (serveur recyclé et machine dédiée) pour tester la virtualisation, l'isolation des réseaux et la haute disponibilité.
 
-Chaque projet sera publié avec son schéma d'architecture complet, son cahier de recette et son code source documenté.
+2. Auto-hébergement & Conteneurs Docker :
+Déploiement et maintien en conditions opérationnelles de services quotidiens : n8n pour les flux d'automatisation, Home Assistant et outils de supervision interne.
 
-En attendant, retrouvez mes travaux sur :
+3. Réseaux d'entreprise & Administration système :
+Topologies multi-VLANs Cisco, routage inter-VLANs, gestion d'annuaires Active Directory / GPO sous Windows Server et durcissement sous Linux.
+
+Chaque projet sera publié avec son schéma d'architecture complet, son retour d'expérience et les scripts associés.
+
+Retrouvez mes travaux récents sur :
 - GitHub : https://github.com/yanix2445
 - LinkedIn : https://www.linkedin.com/in/yanis-harrat/
 
 À très vite,
 Yanis Harrat
-Étudiant BTS SIO SISR · Paris, France
+BTS SIO SISR · Paris
 https://www.yanis-harrat.com
 
 Pour vous désinscrire : {{{unsubscribe_url}}}

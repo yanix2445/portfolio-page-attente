@@ -1,24 +1,18 @@
 Bonjour,
 
-L'infrastructure est prête : mon portfolio technique est officiellement accessible.
+Comme convenu lors de votre inscription prioritaire, je vous informe que mon portfolio technique est officiellement ouvert : https://www.yanis-harrat.com
 
-Comme convenu lors de votre inscription prioritaire, vous êtes le premier informé. Vous y trouverez l'ensemble de mes maquettes d'infrastructure système, mes architectures réseau Cisco, mes configurations de virtualisation et mes projets d'automatisation.
+Vous y découvrirez mes réalisations pratiques : mes documentations de labs physiques sous Proxmox, mes déploiements de conteneurs Docker (n8n, Home Assistant), mes maquettes réseau Cisco et mes scripts d'automatisation.
 
-Découvrir le portfolio : https://www.yanis-harrat.com
+Actuellement en 1ère année de BTS SIO SISR et disponible immédiatement en alternance (rythme 3j entreprise / 2j école à Paris et Île-de-France), je reste joignable pour échanger sur vos besoins ou sur mes projets.
 
-Au programme sur le site :
-- Systèmes & Cloud : Active Directory, GPO, Proxmox, Rocky Linux, Docker.
-- Réseaux d'entreprise : Topologies Cisco, routage OSPF, VLANs, ACL.
-- Cybersécurité : Durcissement des accès, audits de vulnérabilités, sauvegardes chiffrées.
-- Documentation complète : Schémas d'architecture et code source GitHub.
-
-Je reste disponible pour échanger sur mes projets ou sur une opportunité d'alternance :
-- LinkedIn : https://www.linkedin.com/in/yanis-harrat/
+Retrouvez également mes travaux sur :
 - GitHub : https://github.com/yanix2445
+- LinkedIn : https://www.linkedin.com/in/yanis-harrat/
 
-À très vite sur le portfolio,
+Bonne visite et à très vite,
 Yanis Harrat
-Étudiant BTS SIO SISR · Paris, France
+Technicien Systèmes & Réseaux · BTS SIO SISR
 https://www.yanis-harrat.com
 
 Pour vous désinscrire : {{{unsubscribe_url}}}

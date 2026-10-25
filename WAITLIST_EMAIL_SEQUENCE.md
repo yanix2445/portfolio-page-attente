@@ -17,6 +17,9 @@
 ## 2. Fichiers sources des templates
 
 Les gabarits HTML et texte brut sont versionnés dans le dossier [`templates/`](file:///Users/yanis/Developer/portfolio-page-attente/templates) :
+* **Email 1 (Confirmation)** :
+  * HTML : [`templates/01-confirmation.html`](file:///Users/yanis/Developer/portfolio-page-attente/templates/01-confirmation.html)
+  * Texte brut : [`templates/01-confirmation.txt`](file:///Users/yanis/Developer/portfolio-page-attente/templates/01-confirmation.txt)
 * **Email 2 (Coulisses)** :
   * HTML : [`templates/02-teaser.html`](file:///Users/yanis/Developer/portfolio-page-attente/templates/02-teaser.html)
   * Texte brut : [`templates/02-teaser.txt`](file:///Users/yanis/Developer/portfolio-page-attente/templates/02-teaser.txt)

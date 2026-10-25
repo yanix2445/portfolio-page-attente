@@ -1,0 +1,16 @@
+Bonjour,
+
+Votre adresse a bien été enregistrée sur la liste prioritaire pour le lancement de mon portfolio.
+
+Dès l'ouverture, vous recevrez une notification unique pour découvrir mes documentations d'architecture : maquettes réseau Cisco, virtualisation Proxmox, annuaires Active Directory et durcissement Linux.
+
+En attendant, retrouvez mes travaux et mon parcours sur :
+- GitHub : https://github.com/yanix2445
+- LinkedIn : https://www.linkedin.com/in/yanis-harrat/
+
+À très vite,
+Yanis Harrat
+BTS SIO SISR · Paris
+https://www.yanis-harrat.com
+
+Pour vous désinscrire : {{{unsubscribe_url}}}

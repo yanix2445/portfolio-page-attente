@@ -1,26 +1,39 @@
 # Product Marketing Context
 
-**Document version:** v1  
-**Last updated:** 2026-10-24
+**Document version:** v2  
+**Last updated:** 2026-10-25
 
 ## Product Overview
-**One-liner:** Portfolio officiel et vitrine d'ingénierie de Yanis Harrat, étudiant en BTS SIO SISR (Paris) spécialisé en infrastructures systèmes, réseaux, virtualisation et cloud.  
-**What it does:** Présente les compétences techniques, certifications, projets pratiques d'infrastructures (Linux, Windows Server, Cisco, Proxmox, VMware, Cloud, Cybersécurité) et permet aux recruteurs et partenaires de contacter directement Yanis Harrat pour une alternance ou des collaborations techniques.  
+**One-liner:** Portfolio officiel et vitrine d'ingénierie de Yanis Harrat, étudiant en 1ère année de BTS SIO SISR (Paris) disponible immédiatement en alternance (3j entreprise / 2j école), spécialisé en administration systèmes, virtualisation (Proxmox, Docker) et scripting/automatisation.  
+**What it does:** Démontre les compétences opérationnelles réelles à travers un homelab physique (cluster Proxmox, conteneurs Docker, auto-hébergement de services n8n/Home Assistant), des certifications certifiées (Google IT Support, Google Cybersecurity, Cisco, Anthropic Claude) et des architectures documentées pour les recruteurs et DSI.  
 **Product category:** Portfolio d'ingénieur junior / Vitrine de compétences techniques / BTS SIO SISR.  
 **Product type:** Portfolio web personnel et professionnel & page d'attente technique.  
-**Business model:** Recrutement en alternance (contrat d'apprentissage ou de professionnalisation) et missions techniques ciblées.
+**Business model:** Recrutement en alternance (rythme 3j entreprise / 2j école, disponibilité immédiate, Paris & Île-de-France).
 
 ## Target Audience
-**Target companies:** ESN (Entreprises de Services Numériques), PME, grands comptes, hébergeurs, datacenters, DSI d'entreprises en Île-de-France et startups technologiques.  
-**Decision-makers:** Responsables DSI, Responsables d'Exploitation Informatique, Responsables d'Infrastructures & Réseaux, Directeurs Techniques (CTO), Chargés de recrutement IT et Talent Acquisition Managers.  
-**Primary use case:** Évaluer les compétences opérationnelles réelles, la rigueur technique, l'autonomie et le potentiel d'un futur administrateur systèmes et réseaux pour intégrer une équipe d'infrastructure en alternance.  
+**Target companies:** Grands groupes, ETI, PME et ESN en Île-de-France disposant d'infrastructures réelles où un profil junior peut apprendre, intervenir sur le terrain et être rapidement opérationnel.  
+**Decision-makers:** Responsables DSI, Responsables d'Infrastructure & Réseau, Lead Sysadmin, Responsables de Production/Exploitation, Talent Acquisition IT.  
+**Primary use case:** Évaluer les compétences opérationnelles réelles, la rigueur technique, l'autonomie et le potentiel d'un futur technicien ou administrateur systèmes et réseaux.  
 **Jobs to be done:**
-- Valider le niveau technique réel (infrastructures, systèmes, réseaux, virtualisation) au-delà d'un CV standard.
-- Juger du professionnalisme, du sens du détail et de la rigueur de l'étudiant.
-- Faciliter un contact direct immédiat sans friction (Email, LinkedIn, GitHub).
+- Valider le niveau technique réel (lab Proxmox physique, Docker, scripting, Linux, Windows Server) au-delà d'un CV standard.
+- Juger du professionnalisme, du sens du détail et de l'authenticité de l'étudiant.
+- Faciliter un contact direct immédiat sans friction (Email, Téléphone, LinkedIn, GitHub).
 **Use cases:**
-- Recrutement d'un apprenti technicien ou administrateur systèmes et réseaux pour renforcer une DSI.
-- Déploiement, maintien en conditions opérationnelles (MCO), support N2/N3 et migration vers le cloud.
+- Renfort d'une équipe d'exploitation / infrastructure avec un alternant disponible immédiatement.
+- Gestion du MCO, déploiement d'équipements, support N1/N2 et automatisation de tâches récurrentes.
+
+## Homelab & Preuves Techniques
+- **Infrastructure physique** : 2 machines physiques dédiées sous **Proxmox VE** (1 serveur recyclé dédié virtualisation + 1 PC neuf dédié).
+- **Conteneurisation & Services** : Stack **Docker** complète en auto-hébergement (n8n pour l'automatisation, Home Assistant, outils internes), gestion du réseau local, reverse proxy et maintenance opérationnelle continue.
+- **Certifications & Formations validées** :
+  - Google IT Support Professional Certificate
+  - Google Cybersecurity Certificate
+  - Cisco Introduction to Cybersecurity
+  - Claude 101, Claude Code 101, Introduction à Claude Cowork, Introduction à Claude Tag, Claude Platform 101
+
+## Aesthetic & Design Influences
+- **Inspirations de référence** : **Monday.com** et **Dovetail** (design moderne, aéré, modulaire, typographie lisible et affirmée, touches d'accent précises, zéro artifice inutile).
+- **Anti-références strictes** : Formulations génériques d'IA, templates copiés-collés, cartes imbriquées avec emojis gadget, textes impersonnels sans voix propre. Style humain, direct, naturel et professionnel.
 
 ## Personas
 | Persona | Cares about | Challenge | Value we promise |

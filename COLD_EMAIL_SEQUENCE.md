@@ -24,13 +24,13 @@
 ```text
 Bonjour {{Prénom}},
 
-Je prépare un BTS SIO option SISR à Paris et je recherche une alternance pour [Mois de rentrée] sur un rythme [ex: 3 jours entreprise / 2 jours école].
+Je prépare un BTS SIO option SISR à Paris et je suis disponible immédiatement en alternance sur un rythme de 3 jours en entreprise et 2 jours à l'école.
 
-Côté pratique, je monte et maintiens mes propres architectures en lab : virtualisation sous Proxmox, déploiement d'annuaires Active Directory / GPO sous Windows Server, segmentation VLAN sur matériel Cisco et durcissement Linux (Debian / Rocky).
+Côté pratique, je maintiens mon propre lab physique sous Proxmox (serveur dédié et PC d'infrastructure) et j'administre au quotidien une stack de services auto-hébergés sous Docker (n8n, Home Assistant, scripts d'automatisation). Je suis par ailleurs certifié Google IT Support et Google Cybersecurity.
 
-J'ai documenté mes projets techniques et mon parcours sur mon site : https://www.yanis-harrat.com.
+J'ai réuni mes documentations techniques et mes projets sur mon site : https://www.yanis-harrat.com.
 
-Seriez-vous ouvert à un échange téléphonique de 5 à 10 minutes pour voir si mon profil peut être utile à vos équipes au quotidien ?
+Seriez-vous ouvert à un échange téléphonique de 5 à 10 minutes pour voir si mon profil peut soulager vos équipes sur le terrain ?
 
 Bonne journée,
 Yanis Harrat
