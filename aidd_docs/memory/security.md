@@ -33,3 +33,11 @@
 - `Referrer-Policy: strict-origin-when-cross-origin`
 - `X-Content-Type-Options: nosniff`
 - `X-Frame-Options: DENY`
+
+## 6. Modèle de Menace : Asymétrie Inscription vs Désinscription
+- **Action publique & anonyme (Inscription) :**
+  - Le serveur ne connaît pas le client à l'avance. Exiger un HMAC client nécessiterait d'exposer la clé secrète dans le code JavaScript du navigateur, détruisant instantanément la sécurité.
+  - La protection de l'inscription repose donc sur un défi cryptographique délégué sans secret client (**Cloudflare Turnstile**), complété par le filtrage honeypot et le rate-limiting IP.
+- **Action ciblée & authentifiée (Désinscription) :**
+  - Le serveur connaît l'identité de l'inscrit et scelle le jeton avec son secret privé dans le courriel envoyé.
+  - Seul le détenteur de la boîte de réception possède ce lien sécurisé, rendant impossible la désinscription d'un tiers par simple tentative d'énumération GET/POST.

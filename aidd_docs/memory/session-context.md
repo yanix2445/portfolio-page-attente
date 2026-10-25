@@ -65,6 +65,10 @@
 - **Question utilisateur :** Utiliser les plugins pour ajouter toutes les pages légales au strict minimum pour une conformité totale.
 - **Action réalisée :** Création de [`mentions-legales.html`](file:///Users/yanis/Developer/portfolio-page-attente/mentions-legales.html) (accessible sur `/mentions-legales`), regroupant la conformité LCEN (éditeur, hébergeur Vercel, sous-traitants Resend/Cloudflare), la politique RGPD complète (finalité, conservation, droits de désinscription 1 clic, CNIL) et l'absence totale de cookies publicitaires ou de pistage. Lien intégré dans le footer de `index.html`.
 
+### Demande 10 : Analyse de sécurité HMAC vs Turnstile & formalisation `/10-learn`
+- **Question utilisateur :** Pourquoi ne fait-on pas de HMAC sur l'inscription comme sur la désinscription ? Déclenchement de `/10-learn`.
+- **Action réalisée :** Formalisation de l'asymétrie entre action publique anonyme (protection par défi Turnstile sans secret client) et action ciblée authentifiée (protection par signature HMAC avec clé privée serveur). Intégration durable dans [`security.md`](security.md).
+
 ---
 
 ## 3. Paramètres & Clés Techniques du Projet
