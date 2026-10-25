@@ -1,180 +1,132 @@
-# Yanis Harrat — Vitrine d'Ingénierie & Page d'Attente
+# Page d'attente · Yanis Harrat
 
-> **Portfolio technique et point d'entrée officiel vers mon homelab physique, mes architectures réseaux et mes réalisations en administration systèmes.**
+La page d'attente officielle de mon futur portfolio technique : **[yanis-harrat.com](https://www.yanis-harrat.com)**.
 
-[![Production](https://img.shields.io/badge/Production-www.yanis--harrat.com-orange?style=flat-square&logo=vercel)](https://www.yanis-harrat.com)
-[![Status](https://img.shields.io/badge/Statut-Disponible_en_Alternance_(3j/2j)-emerald?style=flat-square)](mailto:yanis@yanis-harrat.com)
-[![BTS SIO SISR](https://img.shields.io/badge/Formation-BTS_SIO_SISR_Aurlom_Paris-blue?style=flat-square)](https://www.aurlom.com)
-[![TypeScript](https://img.shields.io/badge/TypeScript-7.0_(Strict_NodeNext)-3178C6?style=flat-square&logo=typescript)](tsconfig.json)
-[![Sécurité](https://img.shields.io/badge/Sécurité-Turnstile_+_HMAC_SHA--256-green?style=flat-square)](vercel.json)
+Je suis en 1ère année de BTS SIO SISR à Paris (Aurlom). Plutôt que de balancer un énième CV PDF standardisé avec une liste de technos abstraites, j'ai mis en place cette page pour préparer le terrain et montrer du concret : ce que je fais sur mon homelab physique, mes configs réseau, mes scripts d'automatisation et ma façon de coder.
 
-**[👉 Consulter la vitrine en ligne (yanis-harrat.com)](https://www.yanis-harrat.com)** · **[Me contacter directement](mailto:yanis@yanis-harrat.com)** · **[Profil LinkedIn](https://www.linkedin.com/in/yanis-harrat/)**
+Je cherche une alternance de 2 ans en administration systèmes et réseaux (rythme 3 jours en entreprise / 2 jours en cours), disponible immédiatement sur Paris et l'Île-de-France.
 
 ---
 
-## 🎯 Proposition de Valeur & Contexte
+## Ce que fait cette page
 
-### Le problème constaté
-Les recruteurs et DSI reçoivent des dizaines de CVs d'étudiants standardisés, où il est impossible de distinguer un profil passif d'un candidat capable d'intervenir sur des environnements de production réels.
+C'est un point de contact rapide et une liste d'attente pour ceux qui veulent suivre la sortie du portfolio complet (recruteurs, tuteurs, collègues) :
 
-### La solution : Démontrer par la preuve
-Plutôt qu'un simple document statique, ce projet est la **porte d'entrée technique** vers l'ensemble de mes réalisations pratiques. Il combine une page d'attente à haute performance pour capturer les premiers visiteurs (recruteurs, DSI, pairs) et un socle d'ingénierie moderne démontrant ma double compétence :
-1. **La rigueur des infrastructures (SISR) :** Homelab physique, virtualisation Proxmox, routage Cisco, automatisation et maintien en condition opérationnelle (MCO).
-2. **La rigueur du code moderne :** Clean Architecture, typage strict TypeScript, sécurité défensive en profondeur et performance Web standard.
-
----
-
-## 🖥️ Preuves Opérationnelles & Homelab
-
-Toutes les compétences mises en avant sont appuyées par une infrastructure matérielle active :
-
-- **Cluster de Virtualisation Physique :** 2 serveurs physiques dédiés sous **Proxmox VE** (1 serveur dédié virtualisation d'entreprise + 1 station de lab dédiée).
-- **Stack Conteneurs & Services :** Déploiements **Docker** et conteneurs LXC en environnement de test (automatisation n8n, supervision, reverse proxy sécurisé, Home Assistant).
-- **Réseau & Sécurité :** Topologies réseaux segmentées (VLANs, routage OSPF, pare-feu pfSense/Fortinet, VPN sécurisés).
-- **Certifications Validées :**
-  - *Google IT Support Professional Certificate*
-  - *Google Cybersecurity Certificate*
-  - *Cisco Introduction to Cybersecurity*
-  - *Anthropic Claude Platform & Architecture Certifications*
+- Un formulaire d'inscription direct branché sur l'API Resend.
+- Un email de confirmation immédiat envoyé à l'inscrit, avec un lien de désinscription sécurisé en 1 clic.
+- Une interface sans framework lourd, ultra-rapide (32 Ko de HTML brut).
+- Une sécurité invisible côté serveur pour bloquer le spam sans embêter l'utilisateur avec des captchas graphiques.
 
 ---
 
-## 🏗️ Architecture Logicielle (Clean Code)
+## Ce qui tourne derrière (mon infra & mes projets)
 
-Le code backend respecte strictement la **Clean Architecture**, isolant le domaine métier de toute dépendance tierce :
+Cette page annonce un espace plus complet où je documente mes projets réels :
+
+- **Homelab physique sous Proxmox VE :** 2 serveurs physiques dédiés chez moi, pas juste des VMs jetables sur le cloud. Un cluster de virtualisation, des conteneurs LXC et Docker pour mes services perso (n8n, supervision, Home Assistant, reverse proxy).
+- **Réseau & Sécurité :** Topologies Cisco segmentées avec VLANs, routage OSPF, pare-feu pfSense/Fortinet, accès VPN sécurisés.
+- **Systèmes & Scripting :** Déploiement et gestion Linux (Debian, Ubuntu Server) et Windows Server (Active Directory, GPO, DNS, DHCP), scripts d'automatisation en Bash, PowerShell et Python.
+- **Certifications validées :** Google Cybersecurity, Google IT Support, Cisco Introduction to Cybersecurity, Anthropic Claude Platform.
+
+---
+
+## Architecture logicielle & Clean Code
+
+Même pour une simple page d'attente, j'ai voulu une base de code propre, typée et maintenable, sans tout mélanger dans un fichier unique :
 
 ```text
 portfolio-page-attente/
-├── api/                                # Contrôleurs Serverless Vercel (couche présentation mince)
-│   ├── subscribe.ts                    # Point d'entrée POST /api/subscribe
-│   └── unsubscribe.ts                  # Point d'entrée GET /api/unsubscribe (Web & One-Click RFC 8058)
-├── assets/                             # Médias statiques ultra-optimisés
-│   ├── mascot.webp / mascot.png        # Mascotte Hero (96 Ko WebP / 705 Ko PNG)
-│   ├── logo.webp / logo.png            # Identité de marque (13 Ko WebP / 60 Ko PNG)
-│   ├── og-image.png                    # Vignette de partage Open Graph (1200×630)
-│   └── favicon-*.png                   # Favicons multi-résolutions & Apple Touch Icon
+├── api/                            # Serverless functions Vercel (contrôleurs minces)
+│   ├── subscribe.ts                # POST /api/subscribe (inscription)
+│   └── unsubscribe.ts              # GET /api/unsubscribe (désinscription)
+├── assets/                         # Images compressées et formats modernes
+│   ├── mascot.webp / mascot.png    # Mascotte Hero (96 Ko WebP / fallback PNG)
+│   ├── logo.webp / logo.png        # Logo (13 Ko WebP / fallback PNG)
+│   ├── og-image.png                # Carte de partage social (1200×630)
+│   └── favicon-*.png               # Favicons multi-résolutions
 ├── src/
-│   ├── core/                           # Couche Domaine (Pure TypeScript, 0 dépendance)
-│   │   ├── types.ts                    # Contrats d'interfaces et payloads immuables
-│   │   ├── errors.ts                   # Erreurs typées du domaine (ValidationError, SecurityError, etc.)
-│   │   └── validation.ts               # Fonctions pures de validation email & détection honeypot
-│   ├── infrastructure/                 # Adaptateurs d'infrastructure (services externes)
-│   │   ├── config.ts                   # Configuration globale immuable typée (APP_CONFIG)
-│   │   ├── security.provider.ts        # En-têtes CORS stricts & signatures cryptographiques HMAC
-│   │   ├── turnstile.client.ts         # Client de validation Cloudflare Turnstile
-│   │   └── resend.client.ts            # Client API Resend (audiences, contacts, envoi d'emails)
-│   ├── services/                       # Couche Application (Orchestration métier)
-│   │   ├── rate-limiter.service.ts     # Limitation glissante par IP et cooldown d'email
-│   │   ├── subscription.service.ts     # Workflow complet de souscription & notification
-│   │   └── unsubscribe.service.ts      # Workflow de désinscription vérifié par HMAC
-│   └── templates/                      # Modèles transactionnels
-│       └── confirmation.template.ts    # Générateur HTML / texte brut avec signatures dynamiques
-├── index.html                          # Interface utilisateur haute performance (32 Ko)
-├── llms.txt                            # Ingestion machine-readable pour agents IA (Agent Readiness)
-├── robots.txt                          # Directives de crawl & autorisations explicites des bots IA
-├── sitemap.xml                         # Plan de site XML avec schéma d'images Google
-├── tsconfig.json                       # Compilation TypeScript ultra-stricte (NodeNext)
-└── vercel.json                         # En-têtes de sécurité (CSP, HSTS, Permissions), rewrites & cache CDN
+│   ├── core/                       # Domaine pur TypeScript (zéro dépendance)
+│   │   ├── types.ts                # Contrats d'interfaces et types stricts
+│   │   ├── errors.ts               # Classes d'erreurs typées (400, 403, 429)
+│   │   └── validation.ts           # Validation pure de l'email et honeypot
+│   ├── infrastructure/             # Adaptateurs pour les services externes
+│   │   ├── config.ts               # Variables d'environnement typées
+│   │   ├── security.provider.ts    # Signatures HMAC et gestion des origines CORS
+│   │   ├── turnstile.client.ts     # Vérification API Cloudflare Turnstile
+│   │   └── resend.client.ts        # Appels API Resend (audiences et envoi)
+│   ├── services/                   # Logique applicative
+│   │   ├── rate-limiter.service.ts # Fenêtre glissante par IP pour éviter le spam
+│   │   ├── subscription.service.ts # Orchestration complète d'une inscription
+│   │   └── unsubscribe.service.ts  # Validation HMAC et désactivation du contact
+│   └── templates/
+│       └── confirmation.template.ts # Génération du template email avec HMAC
+├── index.html                      # Page HTML5 sémantique et réactive (32 Ko)
+├── llms.txt                        # Fichier de contexte pour les assistants IA
+├── robots.txt                      # Règles de crawl (moteurs de recherche et bots IA)
+├── sitemap.xml                     # Plan de site XML avec métadonnées images
+├── tsconfig.json                   # TypeScript 7 en mode strict NodeNext
+└── vercel.json                     # Headers de sécurité, cache CDN et rewrites
 ```
 
 ---
 
-## 🛡️ Sécurité & Résilience
+## Sécurité concrète (sans blabla)
 
-L'application applique une stratégie de **défense en profondeur** pour protéger l'API et la messagerie contre le spam, les injections et les attaques automatisées :
-
-| Mécanisme | Rôle & Implémentation |
-| :--- | :--- |
-| **Cloudflare Turnstile** | Validation invisible anti-bot côté serveur sur chaque souscription (zéro friction UX, élimination du spam automatisé). |
-| **Signatures HMAC SHA-256** | Chaque lien de désinscription est scellé cryptographiquement avec vérification à temps constant (`crypto.timingSafeEqual`). |
-| **En-têtes CORS Stricts** | Whitelist stricte limitant les requêtes à `https://www.yanis-harrat.com` et aux ports locaux de développement. |
-| **Filtre Honeypot & Rate-Limiter** | Champ masqué anti-crawler + fenêtre glissante en mémoire par IP pour prévenir l'email bombing. |
-| **Content Security Policy (CSP)** | Restriction stricte des sources de scripts, styles et frames autorisées (`'self'`, Cloudflare, Google Fonts). |
-| **HSTS A+ & Confidentialité** | `Strict-Transport-Security: max-age=63072000; preload` + `Referrer-Policy: strict-origin-when-cross-origin`. |
-
----
-
-## ⚡ Performance & Core Web Vitals (CRO)
-
-L'expérience utilisateur est conçue pour maximiser le taux de conversion et supprimer toute friction :
-
-- **Poids réseau minimal :** Document HTML allégé à **32 Ko** (contre 2,75 Mo à l'origine).
-- **Images WebP modernes :** Découpage et compression avancée (mascotte à **96 Ko**, logo à **13 Ko**), offrant un gain de **-96 %** de bande passante sans compromis visuel.
-- **Cache CDN Immuable :** `Cache-Control: public, max-age=31536000, immutable` appliqué aux assets statiques pour un chargement instantané lors des visites récurrentes.
-- **Ergonomie tactile Apple HIG :** Zones tactiles d'au moins 44 px, micro-interactions calibrées avec courbes de ressort Apple (`cubic-bezier`), et toasts HUD Dynamic Island avec retour haptique.
-- **Micro-réassurance de conversion :** Mention explicite anti-friction sous le formulaire : `[✓] Accès prioritaire · Zéro spam · Désinscription en 1 clic`.
+- **Cloudflare Turnstile (mode invisible) :** Chaque formulaire validé passe par une vérification de jeton côté serveur. Résultat : zéro bot, zéro email bombing, et l'utilisateur n'a rien à cocher.
+- **Signatures HMAC SHA-256 :** Pour la désinscription, le lien envoyé par email contient un token cryptographique (`crypto.timingSafeEqual`). Impossible pour un tiers de forcer la désinscription de quelqu'un d'autre en devinant son adresse.
+- **CORS strict :** Seuls mon domaine en production (`https://www.yanis-harrat.com`) et mes environnements de dev locaux sont autorisés à requêter l'API.
+- **Honeypot + Rate Limiter :** Un faux champ caché piège les scrapers basiques, couplé à une limite de requêtes par IP en mémoire.
+- **Headers HTTP renforcés (`vercel.json`) :**
+  - `Content-Security-Policy` pour restreindre strictement les scripts et styles autorisés.
+  - `Strict-Transport-Security` (HSTS) avec preload sur 2 ans.
+  - `Permissions-Policy` désactivant les capteurs (micro, caméra, géolocalisation).
+  - `Referrer-Policy: strict-origin-when-cross-origin`.
 
 ---
 
-## 🤖 SEO, AI-SEO & Agent Readiness
+## Performance & rendu
 
-Optimisation complète pour les moteurs de recherche traditionnels et les moteurs d'intelligence artificielle (AEO / GEO) :
-
-- **Découverte pour les LLMs ([`llms.txt`](llms.txt)) :** Résumé structuré au format standardisé pour permettre à ChatGPT, Perplexity et Claude de citer fidèlement le profil et les compétences.
-- **Directives IA dans [`robots.txt`](robots.txt) :** Autorisation explicite des crawlers de recherche (`PerplexityBot`, `OAI-SearchBot`, `Claude-SearchBot`, `ChatGPT-User`, `Google-Extended`, `Applebot-Extended`) tout en bloquant l'indexation des endpoints backend `/api/`.
-- **Image SEO ([`sitemap.xml`](sitemap.xml)) :** Intégration du schéma Google Images (`xmlns:image`) pour indexer la carte Open Graph et la mascotte 3D.
-- **Données structurées Schema.org :** Schémas complets `@graph` (`WebSite`, `ProfilePage`, `Person` avec `knowsAbout`, `alumniOf`, `seeks`).
+- **Poids plume :** 32 Ko de HTML pour la page complète (au lieu de 2,75 Mo au début quand l'image était en base64 dans le code).
+- **WebP en priorité :** La mascotte pèse **96 Ko** et le logo **13 Ko**, servis via des balises `<picture>` avec fallbacks PNG pour les anciens navigateurs.
+- **Cache CDN immuable :** Les fichiers sous `/assets/*` sont servis avec `Cache-Control: public, max-age=31536000, immutable`.
+- **Sensations Apple :** Animations fluides en CSS pur (`cubic-bezier`), bouton de copie de mail instantané avec toast dynamique en haut de l'écran, et zones tactiles calibrées à 44 px minimum sur mobile.
 
 ---
 
-## 🛠️ Stack Technique
-
-```text
-Language & Runtime  : TypeScript 7.0.2 / Node.js 22 (Target ES2022, Module NodeNext)
-Package Manager     : PNPM 12 (avec validation stricte des builds esbuild)
-Serverless Platform : Vercel Serverless Functions
-Email Delivery      : Resend API (Audiences, Tags, List-Unsubscribe RFC 8058)
-Anti-Bot Security   : Cloudflare Turnstile (mode invisible)
-Design & Styles     : Tailwind CSS v4, typographies Sora, Geist & JetBrains Mono
-Process Supervision : Portly CLI & Supervisor
-```
-
----
-
-## 🚀 Prise en Main & Développement Local
+## Lancer le projet en local
 
 ### Prérequis
-- [Node.js](https://nodejs.org/) (version 20+ recommandée)
-- [pnpm](https://pnpm.io/) (`npm install -g pnpm` ou `corepack enable pnpm`)
+- Node.js (version 20 ou plus récente)
+- pnpm (`corepack enable pnpm`)
 
-### Démarrage rapide
+### Installation
 
 ```bash
-# 1. Cloner le projet
 git clone https://github.com/yanix2445/portfolio-page-attente.git
 cd portfolio-page-attente
 
-# 2. Installer les dépendances
 pnpm install
-
-# 3. Vérifier le typage TypeScript strict
 pnpm run type-check
 ```
 
-### Configuration des variables d'environnement
+### Variables d'environnement
 
 Créer un fichier `.env.local` à la racine :
 
 ```env
-# Clé API Resend et Segment d'audience
 RESEND_API_KEY=re_xxxxxxxxxxxx
 RESEND_SEGMENT_ID=573be7ef-e507-4299-9de5-3ef2dc46917c
-
-# Clé secrète Cloudflare Turnstile
 TURNSTILE_SECRET_KEY=0x4AAAAAA...
-
-# Clé secrète de signature HMAC des désinscriptions
-UNSUBSCRIBE_SECRET=votre-cle-secrete-hmac
+UNSUBSCRIBE_SECRET=cle-secrete-hmac-locale
 ```
 
 ---
 
-## 📬 Contact & Recrutement
+## Me contacter
 
-Disponible immédiatement pour une **alternance de 2 ans en BTS SIO SISR** sur Paris et toute l'Île-de-France (rythme : 3 jours en entreprise / 2 jours à l'école Aurlom Paris).
+Je suis dispo dès maintenant pour échanger sur une opportunité d'alternance ou des projets d'infrastructure :
 
-- **Yanis Harrat**
 - **Email :** [yanis@yanis-harrat.com](mailto:yanis@yanis-harrat.com)
 - **LinkedIn :** [linkedin.com/in/yanis-harrat](https://www.linkedin.com/in/yanis-harrat/)
 - **GitHub :** [github.com/yanix2445](https://github.com/yanix2445)
-- **Vitrine officielle :** [https://www.yanis-harrat.com](https://www.yanis-harrat.com)
+- **Site :** [yanis-harrat.com](https://www.yanis-harrat.com)
