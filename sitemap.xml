@@ -18,4 +18,10 @@
       <image:caption>Mascotte 3D représentant Yanis Harrat au travail sur ordinateur portable</image:caption>
     </image:image>
   </url>
+  <url>
+    <loc>https://www.yanis-harrat.com/mentions-legales</loc>
+    <lastmod>2026-10-25</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.3</priority>
+  </url>
 </urlset>

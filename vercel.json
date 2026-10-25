@@ -8,7 +8,8 @@
     { "source": "/favicon-32x32.png", "destination": "/assets/favicon-32x32.png" },
     { "source": "/logo.png", "destination": "/assets/logo.png" },
     { "source": "/mascot.png", "destination": "/assets/mascot.png" },
-    { "source": "/og-image.png", "destination": "/assets/og-image.png" }
+    { "source": "/og-image.png", "destination": "/assets/og-image.png" },
+    { "source": "/mentions-legales", "destination": "/mentions-legales.html" }
   ],
   "headers": [
     {
