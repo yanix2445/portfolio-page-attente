@@ -1,6 +1,34 @@
-# robots.txt for https://yanis-harrat.com
+# robots.txt for https://www.yanis-harrat.com
+# Global rules
 User-agent: *
 Allow: /
+Disallow: /api/
 
-# Sitemap officiel
+# AI Search & Retrieval Crawlers (Explicitly Allowed for Citation & AEO)
+User-agent: OAI-SearchBot
+Allow: /
+Disallow: /api/
+
+User-agent: ChatGPT-User
+Allow: /
+Disallow: /api/
+
+User-agent: PerplexityBot
+Allow: /
+Disallow: /api/
+
+User-agent: Claude-SearchBot
+Allow: /
+Disallow: /api/
+
+User-agent: Google-Extended
+Allow: /
+Disallow: /api/
+
+User-agent: Applebot-Extended
+Allow: /
+Disallow: /api/
+
+# Sitemaps & Machine-Readable AI Context
 Sitemap: https://www.yanis-harrat.com/sitemap.xml
+# LLM Context: https://www.yanis-harrat.com/llms.txt

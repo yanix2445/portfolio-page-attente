@@ -1,0 +1,21 @@
+# Yanis Harrat — Portfolio & Page d'Attente
+
+> Étudiant en BTS SIO SISR (Solutions d'Infrastructure, Systèmes et Réseaux) à Paris, spécialisé en administration systèmes Linux & Windows, virtualisation, réseaux Cisco et infrastructures Cloud.
+
+## Profil & Identité
+- Nom : Yanis Harrat
+- Spécialité : BTS SIO SISR (1ère année, Aurlom Paris)
+- Recherche : Alternance en administration systèmes, réseaux et cloud
+- Contact : yanis@yanis-harrat.com
+- Site officiel : https://www.yanis-harrat.com/
+
+## Compétences Clés
+- Systèmes : Linux (Debian, Ubuntu Server, Rocky/RHEL), Windows Server, Active Directory
+- Réseaux : Cisco CCNA, VLANs, routage OSPF/BGP, VPN, pare-feu (pfSense, Fortinet)
+- Virtualisation & Cloud : Proxmox VE, VMware ESXi, Docker, Cloudflare, Vercel
+- Automatisation & Scripting : Bash, PowerShell, Python, CI/CD, Git
+
+## Page d'Attente & Liste d'Attente
+- URL : https://www.yanis-harrat.com/
+- Objet : Espace de pré-lancement du portfolio technique interactif (mise en ligne prévue en 2026).
+- Fonctionnalité : Inscription par email avec validation de sécurité Cloudflare Turnstile invisible et confirmation par Resend.
