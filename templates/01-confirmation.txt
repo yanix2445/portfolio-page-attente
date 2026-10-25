@@ -1,10 +1,12 @@
 Bonjour,
 
-Votre adresse a bien été enregistrée sur la liste prioritaire pour le lancement de mon portfolio.
+Votre inscription est bien validée.
 
-Dès l'ouverture, vous recevrez une notification unique pour découvrir mes documentations d'architecture : maquettes réseau Cisco, virtualisation Proxmox, annuaires Active Directory et durcissement Linux.
+Mon objectif avec ce portfolio n'est pas de faire un énième CV en ligne, mais de montrer la réalité du terrain : des machines physiques, des clusters de virtualisation, des topologies réseau et des scripts d'automatisation documentés de A à Z.
 
-En attendant, retrouvez mes travaux et mon parcours sur :
+Le site est en cours de finition. Dès que l'infrastructure est prête, vous recevrez un accès prioritaire.
+
+En attendant l'ouverture, mes chantiers récents et mes dépôts de code sont accessibles ici :
 - GitHub : https://github.com/yanix2445
 - LinkedIn : https://www.linkedin.com/in/yanis-harrat/
 

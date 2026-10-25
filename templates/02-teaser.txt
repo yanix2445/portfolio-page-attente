@@ -1,25 +1,26 @@
 Bonjour,
 
-Vous êtes inscrit sur la liste prioritaire de mon portfolio. En attendant la mise en ligne complète, je voulais partager un aperçu concret des architectures sur lesquelles je travaille actuellement :
+En préparant la sortie du portfolio, je passe mes soirées à documenter ce qui tourne sur mon infrastructure. L'idée est de montrer concrètement ce que je sais déployer et administrer :
 
-1. Lab physique & Virtualisation Proxmox VE :
-Infrastructure sur deux machines physiques dédiées (serveur recyclé et machine dédiée) pour tester la virtualisation, l'isolation des réseaux et la haute disponibilité.
+- Infrastructure physique & virtualisation :
+Deux nœuds Proxmox VE (serveur dédié et machine de test) pour simuler des architectures de production, tester la haute disponibilité et isoler les flux réseau.
 
-2. Auto-hébergement & Conteneurs Docker :
-Déploiement et maintien en conditions opérationnelles de services quotidiens : n8n pour les flux d'automatisation, Home Assistant et outils de supervision interne.
+- Écosystème de conteneurs :
+Des dizaines de services auto-hébergés sous Docker, orchestrés pour tourner 24/7 avec monitoring et sauvegardes automatisées.
 
-3. Réseaux d'entreprise & Administration système :
-Topologies multi-VLANs Cisco, routage inter-VLANs, gestion d'annuaires Active Directory / GPO sous Windows Server et durcissement sous Linux.
+- Réseau & automatisation :
+Segmentation VLAN, routage Cisco et scripts (Bash, PowerShell, Python) pour automatiser toutes les tâches répétitives.
 
-Chaque projet sera publié avec son schéma d'architecture complet, son retour d'expérience et les scripts associés.
+Chaque projet du portfolio sera accompagné de son schéma d'architecture, de ses fichiers de configuration et de son retour d'expérience terrain.
 
-Retrouvez mes travaux récents sur :
+La mise en ligne approche. Je vous préviens dès que les portes ouvrent.
+
+Mes chantiers récents et mes dépôts de code :
 - GitHub : https://github.com/yanix2445
 - LinkedIn : https://www.linkedin.com/in/yanis-harrat/
 
-À très vite,
 Yanis Harrat
-BTS SIO SISR · Paris
+Administration Systèmes, Réseaux & Cloud
 https://www.yanis-harrat.com
 
 Pour vous désinscrire : {{{unsubscribe_url}}}
