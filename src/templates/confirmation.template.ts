@@ -1,0 +1,135 @@
+export interface ConfirmationTemplateParams {
+  email: string;
+  unsubscribeUrl: string;
+}
+
+export function buildConfirmationEmail(params: ConfirmationTemplateParams): {
+  subject: string;
+  html: string;
+  text: string;
+} {
+  const { email, unsubscribeUrl } = params;
+  const subject = 'Bienvenue dans les coulisses · Yanis Harrat';
+
+  const html = `<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>${subject}</title>
+</head>
+<body bgcolor="#0c0c0e" style="margin: 0; padding: 0; background-color: #0c0c0e; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; color: #d4d4d8; -webkit-font-smoothing: antialiased;">
+  <table role="presentation" width="100%" border="0" cellspacing="0" cellpadding="0" style="background-color: #0c0c0e; padding: 48px 16px;">
+    <tr>
+      <td align="center">
+        <!-- Container principal unique, aéré et sans boîtes imbriquées -->
+        <table role="presentation" width="100%" border="0" cellspacing="0" cellpadding="0" style="max-width: 520px; text-align: left;">
+          
+          <!-- En-tête sobre : Logo + Identité -->
+          <tr>
+            <td style="padding-bottom: 28px;">
+              <table role="presentation" border="0" cellspacing="0" cellpadding="0">
+                <tr>
+                  <td width="36" valign="middle" style="padding-right: 12px;">
+                    <img src="cid:yh-logo" width="32" height="32" alt="Yanis Harrat" style="display: block; border-radius: 8px;" />
+                  </td>
+                  <td valign="middle">
+                    <div style="font-size: 14px; font-weight: 600; color: #ffffff; letter-spacing: -0.01em;">Yanis Harrat</div>
+                    <div style="font-size: 12px; color: #71717a; margin-top: 1px;">BTS SIO SISR · Paris</div>
+                  </td>
+                </tr>
+              </table>
+            </td>
+          </tr>
+
+          <!-- Titre direct -->
+          <tr>
+            <td style="padding-bottom: 18px;">
+              <h1 style="margin: 0; font-size: 20px; font-weight: 600; color: #ffffff; letter-spacing: -0.015em; line-height: 1.35;">
+                Bienvenue dans les coulisses
+              </h1>
+            </td>
+          </tr>
+
+          <!-- Corps du message -->
+          <tr>
+            <td style="font-size: 15px; line-height: 1.65; color: #a1a1aa; padding-bottom: 24px;">
+              <p style="margin: 0 0 16px 0;">
+                Bonjour,
+              </p>
+              <p style="margin: 0 0 16px 0;">
+                Votre adresse <strong style="color: #ffffff;">${email}</strong> est bien enregistrée.
+              </p>
+              <p style="margin: 0 0 16px 0;">
+                Mon objectif avec ce portfolio n'est pas de faire un énième CV en ligne, mais de montrer la réalité du terrain : des machines physiques, des clusters de virtualisation, des topologies réseau et des scripts d'automatisation documentés de A à Z.
+              </p>
+              <p style="margin: 0 0 24px 0;">
+                Le site est en cours de finition. Dès que l'infrastructure est prête, vous recevrez un accès prioritaire.
+              </p>
+              <p style="margin: 0 0 16px 0; color: #d4d4d8; font-weight: 500;">
+                En attendant l'ouverture, mes chantiers récents et mes dépôts de code sont accessibles ici :
+              </p>
+
+              <!-- Liens textuels discrets -->
+              <table role="presentation" border="0" cellspacing="0" cellpadding="0">
+                <tr>
+                  <td style="padding-right: 12px;">
+                    <a href="https://github.com/yanix2445" target="_blank" style="display: inline-block; padding: 9px 18px; background-color: #18181b; border: 1px solid #27272a; border-radius: 8px; color: #ffffff; text-decoration: none; font-size: 13px; font-weight: 500;">
+                      GitHub ↗
+                    </a>
+                  </td>
+                  <td>
+                    <a href="https://www.linkedin.com/in/yanis-harrat/" target="_blank" style="display: inline-block; padding: 9px 18px; background-color: #18181b; border: 1px solid #27272a; border-radius: 8px; color: #ffffff; text-decoration: none; font-size: 13px; font-weight: 500;">
+                      LinkedIn ↗
+                    </a>
+                  </td>
+                </tr>
+              </table>
+            </td>
+          </tr>
+
+          <!-- Signature simple -->
+          <tr>
+            <td style="padding-top: 20px; border-top: 1px solid #1f1f23; font-size: 13px; color: #71717a; line-height: 1.5;">
+              <div style="color: #ffffff; font-weight: 500;">Yanis Harrat</div>
+              <div>Administration Systèmes, Réseaux & Cloud</div>
+              <div><a href="https://www.yanis-harrat.com" style="color: #71717a; text-decoration: none;">yanis-harrat.com</a></div>
+            </td>
+          </tr>
+
+          <!-- Footer désinscription épuré avec HMAC sécurisé -->
+          <tr>
+            <td style="padding-top: 28px; font-size: 11px; color: #52525b; line-height: 1.5;">
+              Vous recevez cet email suite à votre inscription sur <a href="https://www.yanis-harrat.com" style="color: #71717a; text-decoration: underline;">yanis-harrat.com</a>.<br>
+              Pour vous désinscrire en 1 clic : <a href="${unsubscribeUrl}" style="color: #71717a; text-decoration: underline;">Se désinscrire</a> · Contact : <a href="mailto:yanis@yanis-harrat.com" style="color: #71717a; text-decoration: underline;">yanis@yanis-harrat.com</a>.
+            </td>
+          </tr>
+
+        </table>
+      </td>
+    </tr>
+  </table>
+</body>
+</html>`;
+
+  const text = `Bonjour,
+
+Votre adresse ${email} est bien enregistrée.
+
+Mon objectif avec ce portfolio n'est pas de faire un énième CV en ligne, mais de montrer la réalité du terrain : des machines physiques, des clusters de virtualisation, des topologies réseau et des scripts d'automatisation documentés de A à Z.
+
+Le site est en cours de finition. Dès que l'infrastructure est prête, vous recevrez un accès prioritaire.
+
+En attendant l'ouverture, mes chantiers récents et mes dépôts de code sont accessibles ici :
+- GitHub : https://github.com/yanix2445
+- LinkedIn : https://www.linkedin.com/in/yanis-harrat/
+
+À très vite,
+Yanis Harrat
+BTS SIO SISR · Paris
+https://www.yanis-harrat.com
+
+Pour vous désinscrire : ${unsubscribeUrl}`;
+
+  return { subject, html, text };
+}
