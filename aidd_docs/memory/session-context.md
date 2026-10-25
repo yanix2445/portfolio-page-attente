@@ -54,6 +54,24 @@ Ce document consigne l'historique chronologique des sessions de développement, 
 
 ---
 
+## Session 02 — 25 Octobre 2026
+
+- **ID de Conversation Antigravity :** `db9b8c9b-0e0d-4ca6-b102-4e54abd0310f`
+- **Lien conversationnel :** [Accéder au fil Antigravity](conversation://db9b8c9b-0e0d-4ca6-b102-4e54abd0310f)
+- **Objectif global :** Bootstrap canonique complet du cadre AIDD (`01-bootstrap`, `02-project-memory`, conventions et banques de mémoire).
+
+### Lots de demandes traités lors de cette session :
+
+#### Demande 2.1 : Déploiement du Bootstrap et des Banques de Mémoire AIDD
+- **Demande :** "oublie pas de fair ele bootstap de AIDD"
+- **Réalisation :** 
+  - Rédaction et déploiement de [`aidd_docs/INSTALL.md`](../INSTALL.md) formalisant la vision produit, les ADR, la cartographie logicielle et le guide d'installation.
+  - Déploiement des documents de gouvernance IA racines [`aidd_docs/CONTRIBUTING.md`](../CONTRIBUTING.md) et [`aidd_docs/GUIDELINES.md`](../GUIDELINES.md).
+  - Génération complète des 10 banques de mémoire canoniques AIDD sous [`aidd_docs/memory/`](README.md) (`project-brief.md`, `codebase-map.md`, `coding-assertions.md`, `testing.md`, `vcs.md`, `ecosystem.md`, `api.md`, `deployment.md`, `design.md`, `forms.md`).
+  - Mise à jour des index de navigation [`aidd_docs/README.md`](../README.md) et [`aidd_docs/memory/README.md`](README.md).
+
+---
+
 ## Sessions Futures (Modèle d'incrémentation)
 
 Chaque nouvelle session de travail incrémente ce document avec le format suivant :

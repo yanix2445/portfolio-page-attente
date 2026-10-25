@@ -35,10 +35,20 @@ La mémoire vivante, les décisions d'architecture et les spécifications techni
 
 <!-- aidd_project_memory:start -->
 - **Index de la mémoire :** [`aidd_docs/memory/README.md`](aidd_docs/memory/README.md)
+- **Vision & Cible :** [`aidd_docs/memory/project-brief.md`](aidd_docs/memory/project-brief.md)
 - **Clean Architecture :** [`aidd_docs/memory/architecture.md`](aidd_docs/memory/architecture.md)
-- **Sécurité & Défense en profondeur :** [`aidd_docs/memory/security.md`](aidd_docs/memory/security.md)
-- **Registre des décisions (ADR) :** [`aidd_docs/memory/decisions.md`](aidd_docs/memory/decisions.md)
-- **Contexte & Historique de la session :** [`aidd_docs/memory/session-context.md`](aidd_docs/memory/session-context.md)
+- **Cartographie Code :** [`aidd_docs/memory/codebase-map.md`](aidd_docs/memory/codebase-map.md)
+- **Portes de Contrôle :** [`aidd_docs/memory/coding-assertions.md`](aidd_docs/memory/coding-assertions.md)
+- **Stratégie de Test :** [`aidd_docs/memory/testing.md`](aidd_docs/memory/testing.md)
+- **Conventions Git & VCS :** [`aidd_docs/memory/vcs.md`](aidd_docs/memory/vcs.md)
+- **Écosystème & Flux :** [`aidd_docs/memory/ecosystem.md`](aidd_docs/memory/ecosystem.md)
+- **API Serverless :** [`aidd_docs/memory/api.md`](aidd_docs/memory/api.md)
+- **Déploiement & Réseau :** [`aidd_docs/memory/deployment.md`](aidd_docs/memory/deployment.md)
+- **Sécurité & Défense :** [`aidd_docs/memory/security.md`](aidd_docs/memory/security.md)
+- **Registre des ADR :** [`aidd_docs/memory/decisions.md`](aidd_docs/memory/decisions.md)
+- **Design Tokens & Dark UI :** [`aidd_docs/memory/design.md`](aidd_docs/memory/design.md)
+- **Formulaires & États :** [`aidd_docs/memory/forms.md`](aidd_docs/memory/forms.md)
+- **Contexte & Sessions :** [`aidd_docs/memory/session-context.md`](aidd_docs/memory/session-context.md)
 <!-- aidd_project_memory:end -->
 
 ---
