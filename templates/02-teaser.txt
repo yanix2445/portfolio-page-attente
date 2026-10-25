@@ -1,0 +1,20 @@
+Bonjour,
+
+Vous êtes inscrit sur la liste prioritaire pour le lancement de mon portfolio. En attendant la mise en ligne officielle, voici un aperçu concret des projets d'infrastructure sur lesquels je finalise la documentation :
+
+1. Virtualisation & Haute Disponibilité : Cluster Proxmox VE, stockage partagé NFS, conteneurs LXC et séparation stricte des flux d'administration.
+2. Architecture Réseau Cisco : Segmentation multi-VLANs, routage inter-VLANs, relais DHCP, agrégation LACP et durcissement SSH.
+3. Administration Windows Server & Linux : Domaine Active Directory, gestion centralisée par GPO, scripts d'onboarding PowerShell et services Rocky Linux.
+
+Chaque projet sera publié avec son schéma d'architecture complet, son cahier de recette et son code source documenté.
+
+En attendant, retrouvez mes travaux sur :
+- GitHub : https://github.com/yanix2445
+- LinkedIn : https://www.linkedin.com/in/yanis-harrat/
+
+À très vite,
+Yanis Harrat
+Étudiant BTS SIO SISR · Paris, France
+https://www.yanis-harrat.com
+
+Pour vous désinscrire : {{{unsubscribe_url}}}

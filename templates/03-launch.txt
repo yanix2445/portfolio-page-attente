@@ -1,0 +1,24 @@
+Bonjour,
+
+L'infrastructure est prête : mon portfolio technique est officiellement accessible.
+
+Comme convenu lors de votre inscription prioritaire, vous êtes le premier informé. Vous y trouverez l'ensemble de mes maquettes d'infrastructure système, mes architectures réseau Cisco, mes configurations de virtualisation et mes projets d'automatisation.
+
+Découvrir le portfolio : https://www.yanis-harrat.com
+
+Au programme sur le site :
+- Systèmes & Cloud : Active Directory, GPO, Proxmox, Rocky Linux, Docker.
+- Réseaux d'entreprise : Topologies Cisco, routage OSPF, VLANs, ACL.
+- Cybersécurité : Durcissement des accès, audits de vulnérabilités, sauvegardes chiffrées.
+- Documentation complète : Schémas d'architecture et code source GitHub.
+
+Je reste disponible pour échanger sur mes projets ou sur une opportunité d'alternance :
+- LinkedIn : https://www.linkedin.com/in/yanis-harrat/
+- GitHub : https://github.com/yanix2445
+
+À très vite sur le portfolio,
+Yanis Harrat
+Étudiant BTS SIO SISR · Paris, France
+https://www.yanis-harrat.com
+
+Pour vous désinscrire : {{{unsubscribe_url}}}
